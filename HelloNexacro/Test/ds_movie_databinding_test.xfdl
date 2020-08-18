@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ds_movie_databinding_test" width="1280" height="720" titletext="New Form" onload="ds_movie_databinding_test_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="@실습문제: Combo를 통해 영화정보 확인하기&#13;&#10;-----------------------------------------------------------------------------------------------&#13;&#10;ds_movie의 데이터를 ImageViewer, Textarea에 Binding하기" left="76" top="25" width="480" height="47"/>
+        <Grid id="Grid00" taborder="1" left="70" top="120" width="110" height="152" binddataset="ds_movie" autofittype="col" visible="true">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="title"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:title"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <ImageViewer id="ImageViewer00" taborder="2" left="204" top="116" width="192" height="208" onload="ImageViewer00_onload" stretch="fixaspectratio" image="url('imagerc::movies/aladin.jpg')"/>
+        <TextArea id="TextArea00" taborder="3" left="418" top="120" width="245" height="324" minwidth="" wordWrap="char"/>
+      </Layout>
+      <Layout height="720" mobileorientation="landscape" width="1280" name="default0"/>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_movie">
+        <ColumnInfo>
+          <Column id="id" type="STRING" size="256"/>
+          <Column id="poster" type="STRING" size="256"/>
+          <Column id="title" type="STRING" size="256"/>
+          <Column id="outline" type="STRING" size="4000"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="poster">imagerc::movies/aladin.jpg</Col>
+            <Col id="title">알라딘</Col>
+            <Col id="outline">1992년에 개봉한 디즈니 애니메이션 알라딘을 원작으로 하는 실사 영화. 가이 리치가 연출을 맡았으며 알라딘 역에 메나 마수드, 자스민 역에 나오미 스콧, 지니 역에 윌 스미스가 캐스팅 되었다.</Col>
+            <Col id="id">movie01</Col>
+          </Row>
+          <Row>
+            <Col id="poster">imagerc::movies/man_in_black.jpg</Col>
+            <Col id="title">맨인블랙</Col>
+            <Col id="outline">배리 소넨필드 감독, 토미 리 존스[1], 윌 스미스 주연, 스티븐 스필버그 제작(제작사가 스필버그가 세운 엠블린 엔터테인먼트 영화사), 소니 픽쳐스 엔터테인먼트 배급인 시리즈 영화.</Col>
+            <Col id="id">movie02</Col>
+          </Row>
+          <Row>
+            <Col id="poster">imagerc::movies/hancock.png</Col>
+            <Col id="title">핸콕</Col>
+            <Col id="outline">Hancock. 영어권의 이름 혹은 성씨. 국립국어원의 규정 용례는 '행콕'이다.</Col>
+            <Col id="id">movie03</Col>
+          </Row>
+          <Row>
+            <Col id="poster">imagerc::movies/i_am_legend.jpg</Col>
+            <Col id="title">나는전설이다</Col>
+            <Col id="outline">가장 최근작이자 처음으로 원제인 '나는 전설이다'를 그대로 사용한 2007년의 영화에서 무대는 뉴욕으로 바뀐다.</Col>
+            <Col id="id">movie04</Col>
+          </Row>
+          <Row>
+            <Col id="poster">imagerc::movies/mr_hitch.jpg</Col>
+            <Col id="title">Mr.히치</Col>
+            <Col id="outline">히치(윌 스미스:Will Smith)는 거금을 받고 비밀리에 남자들의 데이트를 도와주는 성공률 100%의 전설적인 데이트 코치. 매혹적인 스타 알레그라 콜에 반한 연애경험 0%의 회계사 알버트를 도와주던 히치는, 오히려 알레그라 콜의 행적을 쫓는 뉴욕 최고의 스캔들 전문 기자 사라에게 첫눈에 빠져 버리게 된다. 하지만 명성 자자한 연애학 박사 히치도 그녀 앞에만 서면 실수 투성이, 툭하면 데이트를 망쳐 버리기 일쑤인데… 과연, 그는 자신의 데이트에서도 성공할 수 있을까?</Col>
+            <Col id="id">movie05</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+
+this.ImageViewer00_onload = function(obj:nexacro.ImageViewer,e:nexacro.LoadEventInfo)
+{
+	//이미지크기에 맞춰 viewer 너비/높이 변경하기
+	//imageviewer 초기화(필수)
+	//생략하면, 전 이미지의 크기에 맞추어 stretch=fixaspectration가 적용되어 이미지가 점점 작아진다.
+	obj.set_width(208);
+	obj.set_height(286);
+	
+	
+	if(obj.imagewidth > obj.imageheight)
+		obj.set_height(obj.imageheight);
+	else
+		obj.set_width(obj.imagewidth);
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="ImageViewer00" propid="image" datasetid="ds_movie" columnid="poster"/>
+      <BindItem id="item1" compid="TextArea00" propid="value" datasetid="ds_movie" columnid="outline"/>
+    </Bind>
+  </Form>
+</FDL>

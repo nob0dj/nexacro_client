@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompTab" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Tab id="Tab00" taborder="0" tabindex="0" left="76" top="60" width="460" height="242" onchanged="Tab00_onchanged">
+          <Tabpages>
+            <Tabpage id="Tabpage1" text="Tabpage1">
+              <Layouts>
+                <Layout>
+                  <Static id="Static00" taborder="0" text="Hello Tabpage1" left="30" top="21" width="208" height="51"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage2" text="Tabpage2">
+              <Layouts>
+                <Layout>
+                  <Static id="Static00" taborder="0" text="Hello Tabpage2" left="36" top="27" width="196" height="48"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage3" text="Tabpage3">
+              <Layouts>
+                <Layout>
+                  <Static id="Static00" taborder="0" text="Hello Tabpage3" left="36" top="23" width="196" height="53"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Tab00_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	var tabIndex = this.Tab00.tabindex;//tabindex는 소문자이다.
+	//trace(tabIndex); //0 1
+	
+	//자식컴포넌트 찾기 : 아이디로 검색
+	//폼별로 아이디가 부여되므로, 탭페이지별로 공통된 아이디를 가질 수 있다.
+	//alert(this.Tab00.Tabpage1.form['Static00']);
+	var tabPage = this.Tab00['Tabpage' + (tabIndex + 1)];
+	alert(tabPage.form.Static00.text);
+	
+// 	if(tabIndex == 0){
+// 		alert(this.Tab00.Tabpage1.form.Static00.text);
+// 	}
+// 	else if(tabIndex == 1) {
+// 		alert(this.Tab00.Tabpage2.form.Static00.text);	
+// 	}
+// 	else {
+// 		alert(this.Tab00.Tabpage3.form.Static00.text);	
+// 	}
+};
+]]></Script>
+  </Form>
+</FDL>

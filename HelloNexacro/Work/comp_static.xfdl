@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompStatic" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="Static Component는 정적인 텍스트를 표현한다." left="16" top="20" width="264" height="41"/>
+        <Static id="Static01" taborder="1" text="Static01" left="12" top="76" width="252" height="50" onclick="Static01_onclick" font="32px/normal &quot;Gulim&quot;" textAlign="center" onmouseenter="Static01_onmouseenter" onmouseleave="Static01_onmouseleave"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.Static01_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	alert(this.Static01.text);
+};
+
+this.Static01_onmouseenter = function(obj:nexacro.Static,e:nexacro.MouseEventInfo)
+{
+	this.Static01.set_color("red");
+};
+
+this.Static01_onmouseleave = function(obj:nexacro.Static,e:nexacro.MouseEventInfo)
+{
+	//initial 이런 거 없음.
+	//#000 축약형 작동하지 않음.
+	//기본 컬러값 
+	this.Static01.set_color("#555555");
+};
+]]></Script>
+  </Form>
+</FDL>

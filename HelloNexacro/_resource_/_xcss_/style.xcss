@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XCSS version="1.0"><![CDATA[.Static.border
+{
+	-nexa-border : 2px solid cadetblue;	
+}
+.Static.title
+{
+	-nexa-text-decoration : underline;
+}
+.Static
+{
+	-nexa-vertical-align : middle;
+	-nexa-text-align : center;
+}
+.Static.title[status=mouseover]
+{
+	box-shadow : 0px 0px 5px;
+}
+]]></XCSS>

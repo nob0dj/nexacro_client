@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompImageViewerTest" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="@실습문제 : 추천영화 " left="33" top="19" width="120" height="41"/>
+        <Static id="Static01" taborder="1" text="1. 영화 제목을 Combo에서 선택한다.&#13;&#10;2. 해당하는 포스터가 ImageViewer에 노출&#13;&#10;&#13;&#10;----------------------------------------------&#13;&#10;&#13;&#10;1. ComboBox(#myTitle)&#13;&#10;2. DataSet(#ds_movie)&#13;&#10;3. ImageViewer(#myPoster)" left="23" top="45" width="237" height="150"/>
+        <ImageViewer id="myPoster" taborder="2" left="309" top="90" width="208" height="286" onload="myPoster_onload" stretch="fixaspectratio"/>
+        <Combo id="myTitle" taborder="3" left="310" top="21" width="186" height="52" innerdataset="ds_movie" codecolumn="poster" datacolumn="title" onitemchanged="myTitle_onitemchanged"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_movie">
+        <ColumnInfo>
+          <Column id="poster" type="STRING" size="256"/>
+          <Column id="title" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="poster">movie/01.jpg</Col>
+            <Col id="title">알라딘</Col>
+          </Row>
+          <Row>
+            <Col id="poster">movie/02.jpg</Col>
+            <Col id="title">맨인블랙</Col>
+          </Row>
+          <Row>
+            <Col id="poster">movie/03.png</Col>
+            <Col id="title">핸콕</Col>
+          </Row>
+          <Row>
+            <Col id="poster">movie/04.jpg</Col>
+            <Col id="title">나는전설이다</Col>
+          </Row>
+          <Row>
+            <Col id="poster">movie/05.jpg</Col>
+            <Col id="title">Mr.히치</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.myTitle_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	//간단버젼 
+	//stretch=fixaspectratio, imagealign=center middle
+	var posterUrl = this.myTitle.value;
+	this.myPoster.set_image("url('imagerc::" + posterUrl + "')");
+	//this.myPoster.set_stretch("fixaspectratio"); //동적 지정
+
+};
+
+this.myPoster_onload = function(obj:nexacro.ImageViewer,e:nexacro.LoadEventInfo)
+{
+	
+	trace("image = " + obj.image);//  url('imagerc::movie/02.jpg')
+	trace("width = " + obj.width);// ImageViewer 컴포넌트 width
+	trace("height = " + obj.height);// ImageViewer 컴포넌트 height
+	trace("imagewidth = " + obj.imagewidth); 
+	trace("imageheight = " + obj.imageheight);
+	trace("------------------------------------------");
+	
+	
+	//이미지크기에 맞춰 viewer 너비/높이 변경하기
+	//imageviewer 초기화(필수)
+	//생략하면, 전 이미지의 크기에 맞추어 stretch=fixaspectration가 적용되어 이미지가 점점 작아진다.
+	obj.set_width(208);
+	obj.set_height(286);
+	
+	
+	if(obj.imagewidth > obj.imageheight)
+		obj.set_height(obj.imageheight);
+	else
+		obj.set_width(obj.imagewidth);
+};
+]]></Script>
+  </Form>
+</FDL>

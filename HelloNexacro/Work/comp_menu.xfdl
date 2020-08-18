@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompMenu" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="기본 메뉴 요소" left="20" top="12" width="232" height="45"/>
+        <Button id="Button00" taborder="1" text="팝업 메뉴" left="24" top="191" width="143" height="49" onclick="Button00_onclick"/>
+        <Static id="Static00_00" taborder="2" text="Menu x Grid " left="24" top="255" width="226" height="45"/>
+        <Div id="Div00" taborder="3" left="275" top="332" width="690" height="371" border="1px solid royalblue"/>
+        <Menu id="Menu01" taborder="4" left="20" top="75" width="236" height="50" innerdataset="innerdataset" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn" onmenuclick="Menu01_onmenuclick">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="captioncolumn" size="256"/>
+              <Column id="checkboxcolumn" size="256"/>
+              <Column id="enablecolumn" size="256"/>
+              <Column id="hotkeycolumn" size="256"/>
+              <Column id="iconcolumn" size="256"/>
+              <Column id="idcolumn" size="256"/>
+              <Column id="levelcolumn" size="256"/>
+              <Column id="userdatacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="captioncolumn">A</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="userdatacolumn">A</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">A-1</Col>
+                <Col id="levelcolumn">1</Col>
+                <Col id="userdatacolumn">A-1</Col>
+                <Col id="checkboxcolumn">true</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">A-2</Col>
+                <Col id="levelcolumn">1</Col>
+                <Col id="userdatacolumn">A-2</Col>
+                <Col id="checkboxcolumn">true</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">B</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="userdatacolumn">B</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">B-1</Col>
+                <Col id="levelcolumn">1</Col>
+                <Col id="userdatacolumn">B-1</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">C</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="userdatacolumn">C</Col>
+                <Col id="enablecolumn">false</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Menu>
+        <Static id="Static00_01" taborder="5" text="기본 메뉴 요소" left="22" top="135" width="232" height="45"/>
+        <PopupMenu id="PopupMenu01" left="320" top="130" width="180" height="114" innerdataset="innerdataset" captioncolumn="captioncolumn" checkboxcolumn="checkboxcolumn" enablecolumn="enablecolumn" hotkeycolumn="hotkeycolumn" iconcolumn="iconcolumn" idcolumn="idcolumn" levelcolumn="levelcolumn" userdatacolumn="userdatacolumn">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="captioncolumn" size="256"/>
+              <Column id="checkboxcolumn" size="256"/>
+              <Column id="enablecolumn" size="256"/>
+              <Column id="hotkeycolumn" size="256"/>
+              <Column id="iconcolumn" size="256"/>
+              <Column id="idcolumn" size="256"/>
+              <Column id="levelcolumn" size="256"/>
+              <Column id="userdatacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="captioncolumn">A</Col>
+                <Col id="levelcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">A1</Col>
+                <Col id="levelcolumn">1</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">B</Col>
+                <Col id="levelcolumn">0</Col>
+              </Row>
+              <Row>
+                <Col id="captioncolumn">C</Col>
+                <Col id="levelcolumn">0</Col>
+                <Col id="enablecolumn">false</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </PopupMenu>
+        <Grid id="Grid01" taborder="7" left="28" top="330" width="212" height="160" binddataset="ds_menu" autofittype="col" oncellclick="Grid01_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:menu_name" displaytype="treeitemcontrol" treelevel="bind:menu_level" edittype="tree"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_menu">
+        <ColumnInfo>
+          <Column id="menu_id" type="STRING" size="256"/>
+          <Column id="menu_name" type="STRING" size="256"/>
+          <Column id="menu_level" type="STRING" size="256"/>
+          <Column id="menu_url" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="menu_id">1</Col>
+            <Col id="menu_name">대메뉴1</Col>
+            <Col id="menu_level">0</Col>
+          </Row>
+          <Row>
+            <Col id="menu_id">2</Col>
+            <Col id="menu_name">중메뉴1</Col>
+            <Col id="menu_level">1</Col>
+          </Row>
+          <Row>
+            <Col id="menu_id">3</Col>
+            <Col id="menu_name">폼1</Col>
+            <Col id="menu_level">2</Col>
+            <Col id="menu_url">Work::comp_static.xfdl</Col>
+          </Row>
+          <Row>
+            <Col id="menu_id">4</Col>
+            <Col id="menu_name">대메뉴2</Col>
+            <Col id="menu_level">0</Col>
+          </Row>
+          <Row>
+            <Col id="menu_id">5</Col>
+            <Col id="menu_name">폼2</Col>
+            <Col id="menu_level">1</Col>
+            <Col id="menu_url">Work::comp_radio.xfdl</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Menu01_onmenuclick = function(obj:nexacro.Menu,e:nexacro.MenuClickEventInfo)
+{
+		//하위 메뉴 클릭시 호출
+		//하위 메뉴 없는 경우(levelcolumn: 0)에는 작동
+		alert(e.userdata);
+};
+
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//팝업메뉴 기준좌표  찾기 : 버튼 우측
+	//컴포넌트의 클라이언트 기준의 x 좌표값을 스크린 기준의 x 좌표값으로 반환하는 메소드
+	//기준컴포넌트:obj, 위치값:number
+	trace(obj.width);//143
+	var x = system.clientToScreenX(this.Button00, parseInt(obj.width));
+	var y = system.clientToScreenY(this.Button00, 0);
+	
+	trace('x = ' + x + ", y = " + y);
+	
+	//팝업 메뉴 노출
+	this.PopupMenu01.trackPopup(
+		system.screenToClientX(this, x),
+		system.screenToClientY(this, y)
+	);
+};
+
+this.Grid01_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// menu_url 의 값 가져오기
+	// Dataset.getColumn(nRow, nColIdx)
+	// Dataset.getColumn(nRow, strColID)
+	var url = this.ds_menu.getColumn(e.row, "menu_url");
+	//alert(url);
+	
+	// Div에 url 동적으로 적용하기
+	// 선택한 메뉴에 맞게 url을 변경하여
+	// 보이는 화면을 바꿀 수 있다!!!
+	url != undefined && this.Div00.set_url(url);
+};
+]]></Script>
+  </Form>
+</FDL>

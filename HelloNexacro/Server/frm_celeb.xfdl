@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frm_celeb" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="Grid00" taborder="0" left="28" top="98" width="142" height="212" binddataset="ds_celeb" autofittype="col" border="2px solid darkgray">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="46"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="no"/>
+                <Cell col="1" text="name"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:no"/>
+                <Cell col="1" text="bind:name"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="Div00" taborder="3" left="183" top="100" width="517" height="280" border="2px solid darkgray">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo00" taborder="2" text="Combo00" left="235" top="97" width="254" height="52" displaynulltext="종류" innerdataset="ds_celeb_kind" codecolumn="id" datacolumn="name"/>
+              <ImageViewer id="ImageViewer00" taborder="3" left="15" top="24" width="200" height="164" stretch="fixaspectratio" text=""/>
+              <FileUpload id="FileUpload00" taborder="4" left="236" top="169" width="253" height="20" onitemchanged="Div00_FileUpload00_onitemchanged" onsuccess="FileUpTransfer00_onsuccess"/>
+              <Edit id="Edit00_00" taborder="4" left="236" top="24" width="254" height="52" displaynulltext="이름"/>
+              <Button id="Button00_02" taborder="5" text="Save" left="305" top="204" width="81" height="34"/>
+              <Button id="Button00_01" taborder="6" text="Delete" left="408" top="204" width="81" height="34"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="Button00_00" taborder="1" text="Add" left="28" top="373" width="142" height="34" onclick="Div01_Button00_00_onclick"/>
+        <Button id="Button00" taborder="2" text="Select" left="28" top="323" width="142" height="34"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_celeb" onrowposchanged="ds_celeb_onrowposchanged">
+        <ColumnInfo>
+          <Column id="no" type="INT" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+          <Column id="kind" type="STRING" size="256"/>
+          <Column id="profile" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="no">1</Col>
+            <Col id="name">맷데이먼</Col>
+            <Col id="kind">A</Col>
+            <Col id="profile">imagerc::celeb/mattDamon.jpg</Col>
+          </Row>
+          <Row>
+            <Col id="no">2</Col>
+            <Col id="name">김고은</Col>
+            <Col id="kind">A</Col>
+            <Col id="profile">imagerc::celeb/김고은.jpg</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_celeb_kind">
+        <ColumnInfo>
+          <Column id="id" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="id">A</Col>
+            <Col id="name">Actor/Actress</Col>
+          </Row>
+          <Row>
+            <Col id="id">S</Col>
+            <Col id="name">Singer</Col>
+          </Row>
+          <Row>
+            <Col id="id">M</Col>
+            <Col id="name">Model</Col>
+          </Row>
+          <Row>
+            <Col id="name">Comedian</Col>
+            <Col id="id">C</Col>
+          </Row>
+          <Row>
+            <Col id="name">Entertainer</Col>
+            <Col id="id">E</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <FileUpTransfer id="FileUpTransfer00" onerror="FileUpTransfer00_onerror" onprogress="FileUpTransfer00_onprogress" onsuccess="FileUpTransfer00_onsuccess"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item3" compid="Div00.form.ImageViewer00" propid="image" datasetid="ds_celeb" columnid="profile"/>
+      <BindItem id="item0" compid="Div00.form.Edit00_00" propid="value" datasetid="ds_celeb" columnid="name"/>
+      <BindItem id="item1" compid="Div00.form.Combo00" propid="value" datasetid="ds_celeb" columnid="kind"/>
+      <BindItem id="item2" compid="Div00.form.FileUpload00" propid="tooltiptext" datasetid="ds_celeb" columnid="profile"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[
+
+this.Div00_FileUpload00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	console.log(obj);
+	console.log(e);
+	console.log('upload.........');
+	//this.addFileList(obj.filelist);
+	
+	//FileUpload component의 upload 바로 이용하기 : CORS 해결안됨.
+	obj.upload('http://localhost:9090/nxcr/celeb/fileUpload');
+};
+
+
+this.addFileList = function(filelist)
+{
+    for (var i = 0, len = filelist.length, vFile; i < len; i++)
+    {
+        vFile = filelist[i];
+        vFile.addEventHandler("onsuccess", this.FileList_onsuccess, this);
+        vFile.addEventHandler("onerror", this.FileList_onerror , this);   
+        vFile.open(null, 1);
+		console.dir(vFile);
+    }
+	this.uploadFiles();
+}
+/**
+* 파일 추가 성공한 경우
+*/
+this.FileList_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+    switch (e.reason)
+    {
+        case 1:
+            obj.getFileSize();
+            break;
+        case 9:
+//             var nRowIdx = this.Dataset00.addRow();
+//             this.Dataset00.setColumn(nRowIdx, 0, obj.filename);
+//             this.Dataset00.setColumn(nRowIdx, 1, this.cutFileSize(e.filesize));
+            this.FileUpTransfer00.addFile(obj.filename, obj);
+            break;
+    }
+}
+
+this.FileList_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+    trace("errortype: "+e.errortype);
+    trace("errormsg: "+e.errormsg);
+    trace("statuscode: "+e.statuscode);
+}
+
+this.cutFileSize = function(filesize)
+{
+    var sOutput = filesize + " bytes";
+    for (var aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
+    {
+        sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+    }
+    return sOutput;
+};
+/**
+* upload 함수
+*/
+this.uploadFiles = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileUpTransfer00.upload('http://localhost:9090/nxcr/celeb/fileUpload');
+};
+
+this.FileUpTransfer00_onprogress = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferProgressEventInfo)
+{
+    trace("onprogress : "  + e.loaded+"/"+e.total);
+};
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventinfo)
+{
+    trace("onsuccess : "  + e.code);
+    trace("onsuccess : "  + e.message);
+	trace("-----------------------------------");
+		
+	console.log(e);
+	console.log(e.datasets);
+	var ds = e.datasets[0];
+	var fileName = ds.getColumn(0, 'fileName');
+	console.log(fileName);
+	
+	//profile 컬럼값 변경
+	this.ds_celeb.setColumn(this.ds_celeb.rowposition, 'profile', "imagerc::celeb/" + fileName);
+	
+	alert(this.ds_celeb.getColumn(this.ds_celeb.rowposition, 'profile'));
+};
+
+this.FileUpTransfer00_onerror = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferErrorEventInfo)
+{
+    trace(e.errormsg);
+    trace(e.statuscode);
+};
+
+/**
+* Add
+*/
+this.Div01_Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_celeb.addRow();
+};
+]]></Script>
+  </Form>
+</FDL>

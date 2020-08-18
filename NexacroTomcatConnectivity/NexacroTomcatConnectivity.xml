@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- path속성에 /프로젝트명을 동일하게 작성-->
+<!-- docBase속성에 nexacro project generate path를 지정-->
+<Context path="/NexacroTomcatConnectivity" docBase="D:\Dropbox\Coding\khEdu\Workspaces\nexacro_workspce\outputs\NexacroTomcatConnectivity"
+  debug="0" prvileged="true" reloadable="true">
+  <Logger className="org.apache.catalina.logger.FileLogger"
+    directory="logs" prefix="localhost_log." suffix=".txt"
+    timestame="true"/>
+</Context>

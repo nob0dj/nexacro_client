@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompList" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <ListBox id="ListBox00" taborder="0" left="88" top="60" width="196" height="162" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" onitemchanged="ListBox00_onitemchanged" multiselect="true" tooltiptext="innerdataset을 사용. ">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">menu1</Col>
+                <Col id="datacolumn">칼국수</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">menu2</Col>
+                <Col id="datacolumn">순대국</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">menu3</Col>
+                <Col id="datacolumn">김치찌게</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </ListBox>
+        <Button id="Button00" taborder="1" text="선택된 요소 출력" left="322" top="60" width="143" height="44" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="2" text="모든 요소 선택/해제" left="322" top="120" width="143" height="44" onclick="Button01_onclick"/>
+        <Button id="Button01_00" taborder="3" text="특정요소 선택" left="322" top="180" width="143" height="44" onclick="Button01_00_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.ListBox00_onitemchanged = function(obj:nexacro.ListBox,e:nexacro.ItemChangeEventInfo)
+{
+	//방금 선택한 요소만 접근 가능하므로, multiselect모드에서는 쓸모 없음.
+	//alert(obj.value);
+};
+
+//선택된 요소 확인하기
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let listBox = this.ListBox00;
+	let ds = listBox.getInnerDataset();
+	
+	//listBox의 선택된 요소 개수
+	let cnt = listBox.getSelectedCount();
+	//listBox의 선택된 요소의 인덱스를 배열로 반환
+	let selectedIndices = listBox.getSelectedItems();
+	
+	let val = "";
+	for(let i in selectedIndices){
+		//listBox의 요소 index = dataset의 행 index
+		let rowIndex = selectedIndices[i];
+		
+		//dataset의 row에 접근해서 컬럼값 가져오기
+		//let name = ds.getColumn(rowIndex, 1);//컬럼인덱스
+		let name = ds.getColumn(rowIndex, 'datacolumn');//컬럼명
+		
+		val += name + (i != selectedIndices.length - 1 ? ', ' : '');
+	}
+	
+	//console.log(val);
+	cnt == 0 || alert(val + "(" + cnt + ")");
+	cnt == 0 && alert('선택된 요소가 없습니다');
+};
+
+//전체선택/해제
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+	
+	//listBox 모든 요소 개수
+	var length = this.ListBox00.getCount();
+	
+	var selected = this.ListBox00.getSelectedCount() < length ? true : false;
+	
+	for(var i=0; i<length; i++)
+		this.ListBox00.setSelect(i, selected);
+	
+};
+
+this.Button01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const values = ['menu2','menu3'];
+	let listBox = this.ListBox00;
+	let ds = listBox.getInnerDataset();
+	
+	for(let i in values){	
+		let nRow = ds.findRow('codecolumn', values[i]);
+		listBox.setSelect(nRow, true);
+	}
+	
+	
+};
+]]></Script>
+  </Form>
+</FDL>

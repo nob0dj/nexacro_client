@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Script version="1.0" type="xscript5.1"><![CDATA[/************************************************************************
+ * Utils::common.xjs
+ ************************************************************************/
+
+//this(폼)에 등록 : 이 xjs를 include해서 사용하는 폼
+this.test1 = function(msg){
+	alert("this.test1 = " + msg);
+}
+
+//함수 선언 시 this를 붙이지 않으면 전역(window)에 등록된다.
+test2 = function(msg){
+	alert("widow.test2 : " + msg);
+}
+
+//전역객체 선언 : var 키워드 없이 선언하면 전역(window)에 등록된다.
+//application = nexacro.getApplication();
+var application = nexacro.getApplication(); // _application 식별자로 접근가능
+
+application.test3 = function(msg){
+	alert("application.test3 : " + msg);
+}
+
+
+/**
+* 오늘 날짜 구하기
+* yyyymmdd 형식 문자열로 리턴.
+* 서버 crud에서 사용
+*/
+_application.getToday = function(){
+
+	var today = new Date();
+	var yyyy = today.getFullYear();
+
+	//padLeft, padStart 모두 웹표준 string 함수이다.
+	var mm = (today.getMonth() + 1).toString().padLeft(2, "0");
+	var dd = today.getDate().toString().padStart(2, "0");
+	
+	
+	return yyyy + mm + dd;
+}
+
+
+/**
+ * WorkFrame에 폼 시각화 함수
+ */ 
+commonOpenFrm = function(url){
+	
+	// mainframe으로부터 WorkFrame가져오기
+	var workFrame = application.mainframe.VFrameSet00.HFrameSet00.WorkFrame;
+
+	// Form_Work에 surl 적용하기
+	workFrame.set_formurl(url);
+};
+
+]]></Script>

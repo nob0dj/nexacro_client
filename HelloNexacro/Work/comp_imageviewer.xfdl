@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompImageViewer" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="1. 기본 이미지뷰어" left="26" top="20" width="172" height="30" font="normal 700 13pt/normal &quot;나눔스퀘어&quot;"/>
+        <ImageViewer id="ImageViewer00" taborder="1" left="30" top="50" width="211" height="192" stretch="fit" image="url('..\김고은.jpg')"/>
+        <ImageViewer id="ImageViewer01" taborder="2" text="ImageViewer01" left="285" top="50" width="215" height="194" image="url('imagerc::icecream.png')" stretch="fixaspectratio"/>
+        <ImageViewer id="ImageViewer02" taborder="3" text="ImageViewer02" left="540" top="56" width="224" height="73" image="url('imagerc::nexacro_platform.png')"/>
+        <Button id="btn1" taborder="7" text="아이스크림" left="260" top="375" width="100" height="37" onclick="btn2Click"/>
+        <Button id="btn2" taborder="8" text="도넛" left="260" top="310" width="100" height="37" onclick="btn1Click"/>
+        <Static id="Static00_00" taborder="6" text="2. 이미지 동적 제어" left="26" top="260" width="172" height="30" font="normal 700 13pt/normal &quot;나눔스퀘어&quot;"/>
+        <ImageViewer id="ImageViewer03" taborder="7" text="ImageViewer03" left="30" top="310" width="214" height="166"/>
+        <ImageViewer id="ImageViewer04" taborder="8" text="ImageViewer04" left="476" top="308" width="194" height="166"/>
+        <Combo id="Combo00" taborder="9" text="Combo00" left="476" top="486" width="194" height="38" innerdataset="ds_images" codecolumn="filepath" datacolumn="name" onitemchanged="Combo00_onitemchanged"/>
+        <Button id="btn3" taborder="10" text="구름" left="260" top="440" width="100" height="37" onclick="btn3Click"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/*
+this.ImageViewer00.set_image("URL('theme://images/V13_logo.png')") ;                            // 테마 이미지
+this.ImageViewer00.set_image("URL('http://www.tobesoft.com/images/gnb/btn_h1.gif')") ;  // 웹 이미지
+this.ImageViewer00.set_image("URL('file://C:/xplatform_logo.gif')") ;                                // 절대경로 이미지
+this.ImageViewer00.set_image("URL('Base::test.jpg')") ;                                                  // TypeDefinition Prefix 이미지
+this.ImageViewer00.set_image("URL('./test.jpg')") ;                                                         // 상대경로 이미지
+this.ImageViewer00.set_image("data:image/png;base64,iVBORw0~....");                           // Base64 로 인코딩 된 이미지 데이터
+*/
+
+var img = this.ImageViewer03;
+
+this.btn1Click = function(){
+	img.set_image("url('imagerc::doughnut.png')");
+	img.set_stretch('fit');
+}
+
+this.btn2Click = function(){
+	
+	img.set_image("url('imagerc::icecream.png')");
+	img.set_stretch('fit');
+};
+
+this.btn3Click = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	img.set_image("url('https://lh3.googleusercontent.com/proxy/F8x7-XY89XwkQCIJubf5rwsaabbbtqewjDj_djlxgviab5YLTdyxZhuNACBe5cjIU_23OQNo-KCqoM6My2ma2MGpfFoqyO7oLWhfzcTsPepDyIeop4KHnUXtMgSmWsAzJtjT02v9YTdZxSQPytQ9MbfONFEv8WqvpjKF-2QCSoMDaETQDcZlvJ204j11a-q40GJeuYDphVCbM_gtd_95HqE949k2UQ4lvezToRj6SXwA-K-sLaZ97ZADHo1mn-JsBG4wqC-byOqv5N19sp26ixXaUQ5oqWBozhNTo3I90w')");
+	img.set_stretch('fit');
+};
+
+this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	alert(obj.text + " : " + obj.value);// 도넛, doughnut.png
+	this.ImageViewer04.set_image("url('imagerc::" + obj.value + "')");
+	this.ImageViewer04.set_stretch("fixaspectratio");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_images">
+        <ColumnInfo>
+          <Column id="name" type="STRING" size="256"/>
+          <Column id="filepath" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name">도넛</Col>
+            <Col id="filepath">doughnut.png</Col>
+          </Row>
+          <Row>
+            <Col id="name">아이스크림</Col>
+            <Col id="filepath">icecream.png</Col>
+          </Row>
+          <Row>
+            <Col id="name">현타견</Col>
+            <Col id="filepath">hyunta.jpg</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

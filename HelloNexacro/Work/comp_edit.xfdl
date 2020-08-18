@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompEdit" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="normal edit" left="17" top="19" width="205" height="34" onclick="Static00_onclick"/>
+        <Edit id="Edit00" taborder="1" left="20" top="51" width="227" height="35" displaynulltext="아무거나 입력하세요" onkeyup="myKeyUpHandler"/>
+        <Static id="Static00_00" taborder="2" text="readonly = true" left="17" top="91" width="205" height="34"/>
+        <Edit id="Edit00_00" taborder="3" left="20" top="123" width="227" height="35" displaynulltext="읽기전용입니다." readonly="true"/>
+        <Static id="Static00_00_00" taborder="4" text="password = true" left="17" top="163" width="205" height="34"/>
+        <Edit id="pwdEdit" taborder="5" left="20" top="195" width="227" height="35" displaynulltext="비밀번호 Edit 입니다." password="true"/>
+        <Button id="Button00" taborder="6" text="결과 확인" left="270" top="51" width="140" height="35" onclick="Button00_onclick"/>
+        <CheckBox id="chk_password" taborder="7" text="비번 표시하기" left="150" top="170" width="150" height="20" onclick="chk_password_onclick"/>
+        <Static id="Static00_01" taborder="8" text="inputtype = english | maxlength = 4" left="20" top="231" width="253" height="34"/>
+        <Edit id="Edit00_01" taborder="9" left="20" top="265" width="227" height="35" displaynulltext="아무거나 입력하세요" inputtype="english" maxlength="4" onchanged="Edit00_01_onchanged"/>
+        <Static id="Static00_01_00" taborder="10" text="inputtype = number" left="17" top="303" width="253" height="34"/>
+        <Edit id="Edit00_01_00" taborder="11" left="20" top="335" width="227" height="35" displaynulltext="아무거나 입력하세요" inputtype="digit"/>
+        <TextArea id="TextArea00" taborder="12" left="440" top="52" width="268" height="106" displaynulltext="textarea "/>
+        <Button id="Button01" taborder="13" text="확인" left="724" top="54" width="68" height="102" onclick="Button01_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// Edit00의 값을 받아 화면에 출력하고
+	// Edit00의 내용 바꾸기
+	
+	// 1. Edit00 의 값을 받을 변수 하나 생성
+	var str = this.Edit00.value;
+	
+	// 2. value 값을 alert()으로 담아 알림창 띄우기
+	alert(str + " 값 확인 완료!");
+	
+	// 3. Edit00의 값 변경하기
+	// comp.value 가 getter라면
+	//setter는 comp.set_value(value) 형태로 'set_' 접두어 사용
+	this.Edit00.set_value("12345");
+};
+
+this.myKeyUpHandler = function(obj, e){
+	console.dir(e);
+	//별도의 키값 확인 불가. ascii코드값으로 확인하기 String.fromCharCode(ascii_val)
+	trace(String.fromCharCode(e.keycode));//영대문자처리, 한글처리불가
+	
+	//이벤트발생객체 fromobject / fromreferenceobject
+	alert(e.fromobject.value);
+}
+
+//비번 표시하기
+this.chk_password_onclick = function(obj:nexacro.CheckBox,e:nexacro.ClickEventInfo)
+{	
+	// 1. 체크 박스 결과 확인
+	//alert(obj.value); //체크되었을때 true, 체크해제 되었을때 false
+	let checked = obj.value;
+	//password 설정 변경
+	this.pwdEdit.set_password(!checked);
+	
+};
+
+
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var text = this.TextArea00.text;
+	alert(text);
+};
+]]></Script>
+  </Form>
+</FDL>

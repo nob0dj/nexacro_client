@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmGlobalDataset" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="Grid00" taborder="0" left="34" top="30" width="766" height="175" binddataset="gds_emp" autofittype="col" oncellclick="Grid00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="92"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="EMPL_ID"/>
+                <Cell col="1" text="FULL_NAME"/>
+                <Cell col="2" text="DEPT_CD"/>
+                <Cell col="3" text="POS_CD"/>
+                <Cell col="4" text="HIRE_DATE"/>
+                <Cell col="5" text="SALARY"/>
+                <Cell col="6" text="GENDER"/>
+                <Cell col="7" text="MARRIED"/>
+                <Cell col="8" text="MEMO"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMPL_ID"/>
+                <Cell col="1" text="bind:FULL_NAME"/>
+                <Cell col="2" text="bind:DEPT_CD"/>
+                <Cell col="3" text="bind:POS_CD"/>
+                <Cell col="4" text="bind:HIRE_DATE"/>
+                <Cell col="5" text="bind:SALARY"/>
+                <Cell col="6" text="bind:GENDER"/>
+                <Cell col="7" text="bind:MARRIED"/>
+                <Cell col="8" text="bind:MEMO"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="Grid01" taborder="1" left="33" top="238" width="771" height="202" binddataset="gds_emp" autofittype="col" cellsizingtype="both" extendsizetype="row" autosizingtype="row">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="125"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="EMPL_ID"/>
+                <Cell col="1" text="FULL_NAME"/>
+                <Cell col="2" text="DEPT_CD"/>
+                <Cell col="3" text="POS_CD"/>
+                <Cell col="4" text="HIRE_DATE"/>
+                <Cell col="5" text="SALARY"/>
+                <Cell col="6" text="GENDER"/>
+                <Cell col="7" text="MARRIED"/>
+                <Cell col="8" text="MEMO"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:EMPL_ID" displaytype="mask" maskeditformat="AA-###" maskedittype="string"/>
+                <Cell col="1" text="bind:FULL_NAME" displaytype="editcontrol" edittype="text"/>
+                <Cell col="2" text="bind:DEPT_CD" displaytype="combocontrol" combodataset="gds_dept" combocodecol="DEPT_CD" combodatacol="DEPT_NAME"/>
+                <Cell col="3" text="bind:POS_CD" displaytype="combocontrol" edittype="combo" combodataset="gds_pos" combocodecol="POS_CD" combodatacol="POS_NAME"/>
+                <Cell col="4" text="bind:HIRE_DATE" displaytype="calendarcontrol" edittype="date"/>
+                <Cell col="5" text="bind:SALARY" displaytype="currency" locale="ko_KR"/>
+                <Cell col="6" text="bind:GENDER" displaytype="combotext" edittype="combo" combodataset="ds_gender" combocodecol="gender_code" combodatacol="gender_name"/>
+                <Cell col="7" text="bind:MARRIED" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="true" checkboxfalsevalue="false"/>
+                <Cell col="8" text="bind:MEMO" displaytype="normal" edittype="textarea" wordWrap="english"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	console.log(obj);
+};
+
+this.Grid02_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	console.log(obj);//nexacro.Grid
+	console.log(e);//nexacroGridClickEventInfo
+	
+	//url컬럼을 클릭한 경우 
+	//e.cell = e.col
+	if(e.col == 1) {
+	
+		//enable 컬럼이 'Y'인 경우
+		if(this.ds_site.getColumn(e.row, 'enable') == 'Y')
+			system.execBrowser(this.ds_site.getColumn(e.row, 1));
+		
+	}
+};
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_gender">
+        <ColumnInfo>
+          <Column id="gender_code" type="STRING" size="256"/>
+          <Column id="gender_name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="gender_code">M</Col>
+            <Col id="gender_name">남</Col>
+          </Row>
+          <Row>
+            <Col id="gender_code">W</Col>
+            <Col id="gender_name">여</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_site">
+        <ColumnInfo>
+          <Column id="site" type="STRING" size="256"/>
+          <Column id="url" type="STRING" size="256"/>
+          <Column id="image" type="STRING" size="256"/>
+          <Column id="enable" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="url">http://w3schols.com</Col>
+            <Col id="site">w3schools</Col>
+            <Col id="enable">Y</Col>
+            <Col id="image">w3schools.jpg</Col>
+          </Row>
+          <Row>
+            <Col id="url">https://www.codecademy.com</Col>
+            <Col id="site">codecademy</Col>
+            <Col id="enable">Y</Col>
+            <Col id="image">codecademy.png</Col>
+          </Row>
+          <Row>
+            <Col id="url">https://www.khanacademy.org/</Col>
+            <Col id="site">khanacademy</Col>
+            <Col id="enable">N</Col>
+            <Col id="image">khanacademy.jpg</Col>
+          </Row>
+          <Row>
+            <Col id="url">https://www.udemy.com/</Col>
+            <Col id="site">udemy</Col>
+            <Col id="enable">Y</Col>
+            <Col id="image">udemy.png</Col>
+          </Row>
+          <Row>
+            <Col id="site">kh정보교육원</Col>
+            <Col id="url">https://iei.or.kr</Col>
+            <Col id="image">kh.png</Col>
+            <Col id="enable">Y</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

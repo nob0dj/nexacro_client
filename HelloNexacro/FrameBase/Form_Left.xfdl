@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Left" width="200" height="670" titletext="Form_Left">
+    <Layouts>
+      <Layout width="200" height="670" screenid="screen00">
+        <Grid id="Grid00" taborder="0" left="23" top="0" width="155" height="491" binddataset="gds_menu" autofittype="col" treeinitstatus="expand,all" treeusecheckbox="false" oncellclick="Grid00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:menu_name" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:menu_level"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+      <Layout name="screen00_01" width="200" height="720" screenid=""/>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[include "Utils::common.xjs"
+/*
+ * 선택된 행인덱스를 통한 Dataset.getColumn 조회
+ */
+this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//다음 속성은 사용불가
+	//obj.id : Grid00
+	//e.id : oncellclick
+	
+	//선택된 row를 가지고, menu_url검색
+	var menu_url = _application.gds_menu.getColumn(e.row, "menu_url");
+	
+	//application스코프 없이 호출할 것
+	commonOpenFrm(menu_url);
+};
+]]></Script>
+  </Form>
+</FDL>

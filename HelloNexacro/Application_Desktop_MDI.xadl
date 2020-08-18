@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="Application_Desktop_1" screenid="screen00" onload="Application_onload">
+    <Layout>
+      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="true" width="1280" height="720" titletext="TopLeftFrame">
+        <VFrameSet id="VFrameSet00" separatesize="50,*">
+          <Frames>
+            <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Top.xfdl"/>
+            <HFrameSet id="HFrameSet00" separatesize="200,*">
+              <Frames>
+                <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Left.xfdl"/>
+                <ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Work.xfdl"/>
+              </Frames>
+            </HFrameSet>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+    <Style url="xcssrc::style.xcss"/>
+  </Application>
+  <Script type="xscript5.1"><![CDATA[/**
+ * APPLICATION 전역함수
+ * this는 application
+ */ 
+this.openFrm = function(url){
+	
+	// mainframe으로부터 WorkFrame가져오기
+	var workFrame = this.mainframe.VFrameSet00.HFrameSet00.WorkFrame;
+
+	// Form_Work에 surl 적용하기
+	workFrame.set_formurl(url);
+};
+
+//callback : transaction호출 스코프와 동일하게 선언할것
+this.callbackFunc = function(strSvcID, nErrorCode, strErrorMsg) {
+	trace("nErrorCode = " + nErrorCode);
+	trace("strErrorMsg = " + strErrorMsg);
+	if(nErrorCode < 0 ) alert(strSvcID + " : " + strErrorMsg);
+};
+
+
+
+
+/**
+* 최초 application 로딩시 1회 실행
+*/
+this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
+{
+	trace("application_onload");
+	_application.transaction(
+		"movie.select",
+		"DataUrl::movie/select",
+		"",
+		"gds_movie=out_ds", //clientDataset=serverDataset
+		"",
+		"callbackFunc"
+	);
+};
+]]></Script>
+</ADL>

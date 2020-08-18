@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompCheckBox" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="CheckBox 변형 형태" left="26" top="173" width="228" height="35"/>
+        <CheckBox id="CheckBox00" taborder="1" text="사용" left="27" top="54" width="143" height="21" onclick="CheckBox00_onclick" value="N" falsevalue="N" truevalue="Y"/>
+        <Static id="Static00_00" taborder="2" text="CheckBox 기본 형태" left="26" top="11" width="228" height="39"/>
+        <CheckBox id="CheckBox01" taborder="3" text="왼쪽" left="29" top="211" width="43" height="20"/>
+        <CheckBox id="CheckBox02" taborder="4" text="오른쪽" left="198" top="211" width="55" height="20" iconPosition="right"/>
+        <CheckBox id="CheckBox03" taborder="5" text="위쪽" left="373" top="206" width="30" height="30" iconPosition="top" textAlign="center"/>
+        <CheckBox id="CheckBox04" taborder="6" text="아래쪽" left="548" top="206" width="42" height="28" iconPosition="bottom" textAlign="center"/>
+        <Button id="Button00" taborder="7" text="체크박스 동적제어" left="216" top="46" width="168" height="34" onclick="Button00_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.CheckBox00_onclick = function(obj:nexacro.CheckBox,e:nexacro.ClickEventInfo)
+{
+	
+	//기본값 true/false
+	alert("CheckBox00.value : " + obj.value);
+	//Appearance.truevalue/falsevalue 설정시 변경된다.
+};
+
+
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let toggleVal = this.CheckBox00.isChecked() ? 'N' : 'Y';
+	this.CheckBox00.set_value(toggleVal);
+};
+]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

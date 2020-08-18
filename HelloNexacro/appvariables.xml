@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppVariables version="2.0">
+  <Datasets>
+    <Dataset id="gds_emp">
+      <ColumnInfo>
+        <Column id="EMPL_ID" type="STRING" size="10"/>
+        <Column id="FULL_NAME" type="STRING" size="50"/>
+        <Column id="DEPT_CD" type="STRING" size="10"/>
+        <Column id="POS_CD" type="STRING" size="10"/>
+        <Column id="HIRE_DATE" type="DATE" size="10"/>
+        <Column id="SALARY" type="INT" size="10"/>
+        <Column id="GENDER" type="STRING" size="10"/>
+        <Column id="MARRIED" type="STRING" size="10"/>
+        <Column id="MEMO" type="STRING" size="10"/>
+      </ColumnInfo>
+      <Rows>
+        <Row>
+          <Col id="EMPL_ID">AA001</Col>
+          <Col id="FULL_NAME">Olivia</Col>
+          <Col id="DEPT_CD">01</Col>
+          <Col id="POS_CD">03</Col>
+          <Col id="HIRE_DATE">20101003</Col>
+          <Col id="SALARY">83000</Col>
+          <Col id="GENDER">W</Col>
+          <Col id="MARRIED">true</Col>
+          <Col id="MEMO">ivory
+blue
+red</Col>
+        </Row>
+        <Row>
+          <Col id="EMPL_ID">AA002</Col>
+          <Col id="FULL_NAME">John</Col>
+          <Col id="DEPT_CD">02</Col>
+          <Col id="POS_CD">04</Col>
+          <Col id="HIRE_DATE">20051011</Col>
+          <Col id="SALARY">76000</Col>
+          <Col id="GENDER">M</Col>
+          <Col id="MARRIED">false</Col>
+          <Col id="MEMO">greenyellow</Col>
+        </Row>
+        <Row>
+          <Col id="EMPL_ID">BB001</Col>
+          <Col id="FULL_NAME">Jackson</Col>
+          <Col id="DEPT_CD">03</Col>
+          <Col id="POS_CD">03</Col>
+          <Col id="HIRE_DATE">20070206</Col>
+          <Col id="SALARY">95000</Col>
+          <Col id="GENDER">M</Col>
+          <Col id="MARRIED">true</Col>
+          <Col id="MEMO">aliceblue</Col>
+        </Row>
+        <Row>
+          <Col id="EMPL_ID">BB002</Col>
+          <Col id="FULL_NAME">Maia</Col>
+          <Col id="DEPT_CD">04</Col>
+          <Col id="POS_CD">02</Col>
+          <Col id="HIRE_DATE">20090512</Col>
+          <Col id="SALARY">60000</Col>
+          <Col id="GENDER">W</Col>
+          <Col id="MARRIED">false</Col>
+          <Col id="MEMO">ivory</Col>
+        </Row>
+        <Row>
+          <Col id="EMPL_ID">CC001</Col>
+          <Col id="FULL_NAME">Adam</Col>
+          <Col id="DEPT_CD">01</Col>
+          <Col id="POS_CD">04</Col>
+          <Col id="HIRE_DATE">20010109</Col>
+          <Col id="SALARY">88000</Col>
+          <Col id="GENDER">M</Col>
+          <Col id="MARRIED">true</Col>
+          <Col id="MEMO">greenyellow</Col>
+        </Row>
+        <Row>
+          <Col id="EMPL_ID">DD001</Col>
+          <Col id="FULL_NAME">Ray</Col>
+          <Col id="DEPT_CD">02</Col>
+          <Col id="POS_CD">03</Col>
+          <Col id="HIRE_DATE">20160202</Col>
+          <Col id="SALARY">60000</Col>
+          <Col id="GENDER">M</Col>
+          <Col id="MARRIED">true</Col>
+          <Col id="MEMO">lightpink</Col>
+        </Row>
+      </Rows>
+    </Dataset>
+    <Dataset id="gds_dept">
+      <ColumnInfo>
+        <Column id="DEPT_CD" type="STRING" size="32"/>
+        <Column id="DEPT_NAME" type="STRING" size="32"/>
+      </ColumnInfo>
+      <Rows>
+        <Row>
+          <Col id="DEPT_CD">01</Col>
+          <Col id="DEPT_NAME">Accounting Team</Col>
+        </Row>
+        <Row>
+          <Col id="DEPT_CD">02</Col>
+          <Col id="DEPT_NAME">HR Team</Col>
+        </Row>
+        <Row>
+          <Col id="DEPT_CD">03</Col>
+          <Col id="DEPT_NAME">Sales Team</Col>
+        </Row>
+        <Row>
+          <Col id="DEPT_CD">04</Col>
+          <Col id="DEPT_NAME">Design Team</Col>
+        </Row>
+        <Row>
+          <Col id="DEPT_CD">05</Col>
+          <Col id="DEPT_NAME">Education Team</Col>
+        </Row>
+      </Rows>
+    </Dataset>
+    <Dataset id="gds_pos">
+      <ColumnInfo>
+        <Column id="POS_CD" type="string" size="32"/>
+        <Column id="POS_NAME" type="string" size="32"/>
+      </ColumnInfo>
+      <Rows>
+        <Row>
+          <Col id="POS_CD">04</Col>
+          <Col id="POS_NAME">Officer</Col>
+        </Row>
+        <Row>
+          <Col id="POS_CD">03</Col>
+          <Col id="POS_NAME">Assistant Manager</Col>
+        </Row>
+        <Row>
+          <Col id="POS_CD">02</Col>
+          <Col id="POS_NAME">Division Manager</Col>
+        </Row>
+        <Row>
+          <Col id="POS_CD">01</Col>
+          <Col id="POS_NAME">Chairman</Col>
+        </Row>
+      </Rows>
+    </Dataset>
+    <Dataset id="gds_menu">
+      <ColumnInfo>
+        <Column id="menu_id" type="STRING" size="256"/>
+        <Column id="menu_name" type="STRING" size="256"/>
+        <Column id="menu_level" type="STRING" size="256"/>
+        <Column id="menu_url" type="STRING" size="256"/>
+      </ColumnInfo>
+      <Rows>
+        <Row>
+          <Col id="menu_id">menu01</Col>
+          <Col id="menu_name">메뉴1</Col>
+          <Col id="menu_level">0</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu02</Col>
+          <Col id="menu_name">폼1</Col>
+          <Col id="menu_level">1</Col>
+          <Col id="menu_url">Work::comp_static.xfdl</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu03</Col>
+          <Col id="menu_name">메뉴2</Col>
+          <Col id="menu_level">0</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu04</Col>
+          <Col id="menu_name">폼2</Col>
+          <Col id="menu_level">1</Col>
+          <Col id="menu_url">Server::frm_celeb.xfdl</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu05</Col>
+          <Col id="menu_name">인사관리</Col>
+          <Col id="menu_level">1</Col>
+          <Col id="menu_url">Server::frm_empl.xfdl</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu06</Col>
+          <Col id="menu_name">영화메뉴</Col>
+          <Col id="menu_level">0</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu07</Col>
+          <Col id="menu_name">영화목록</Col>
+          <Col id="menu_level">1</Col>
+          <Col id="menu_url">Test::gds_movie_databinding_test.xfdl</Col>
+        </Row>
+        <Row>
+          <Col id="menu_id">menu08</Col>
+          <Col id="menu_name">영화등록/수정</Col>
+          <Col id="menu_level">1</Col>
+          <Col id="menu_url">Test::frm_movie.xfdl</Col>
+        </Row>
+      </Rows>
+    </Dataset>
+    <Dataset id="gds_movie" onrowposchanged="gds_movie_onrowposchanged">
+      <ColumnInfo>
+        <Column id="id" type="STRING" size="256"/>
+        <Column id="title" type="STRING" size="256"/>
+        <Column id="poster" type="STRING" size="256"/>
+        <Column id="outline" type="STRING" size="4000"/>
+      </ColumnInfo>
+      <Rows>
+        <Row>
+          <Col id="title">알라딘</Col>
+          <Col id="outline">1992년에 개봉한 디즈니 애니메이션 알라딘을 원작으로 하는 실사 영화. 가이 리치가 연출을 맡았으며 알라딘 역에 메나 마수드, 자스민 역에 나오미 스콧, 지니 역에 윌 스미스가 캐스팅 되었다.</Col>
+          <Col id="id">movie01</Col>
+          <Col id="poster">imagerc::movies/aladin.jpg</Col>
+        </Row>
+        <Row>
+          <Col id="title">맨인블랙</Col>
+          <Col id="outline">배리 소넨필드 감독, 토미 리 존스[1], 윌 스미스 주연, 스티븐 스필버그 제작(제작사가 스필버그가 세운 엠블린 엔터테인먼트 영화사), 소니 픽쳐스 엔터테인먼트 배급인 시리즈 영화.</Col>
+          <Col id="id">movie02</Col>
+          <Col id="poster">imagerc::movies/man_in_black.jpg</Col>
+        </Row>
+        <Row>
+          <Col id="title">핸콕</Col>
+          <Col id="outline">Hancock. 영어권의 이름 혹은 성씨. 국립국어원의 규정 용례는 '행콕'이다.</Col>
+          <Col id="id">movie03</Col>
+          <Col id="poster">imagerc::movies/hancock.png</Col>
+        </Row>
+        <Row>
+          <Col id="title">나는전설이다</Col>
+          <Col id="outline">가장 최근작이자 처음으로 원제인 '나는 전설이다'를 그대로 사용한 2007년의 영화에서 무대는 뉴욕으로 바뀐다.</Col>
+          <Col id="id">movie04</Col>
+          <Col id="poster">imagerc::movies/i_am_legend.jpg</Col>
+        </Row>
+        <Row>
+          <Col id="title">Mr.히치</Col>
+          <Col id="outline">히치(윌 스미스:Will Smith)는 거금을 받고 비밀리에 남자들의 데이트를 도와주는 성공률 100%의 전설적인 데이트 코치. 매혹적인 스타 알레그라 콜에 반한 연애경험 0%의 회계사 알버트를 도와주던 히치는, 오히려 알레그라 콜의 행적을 쫓는 뉴욕 최고의 스캔들 전문 기자 사라에게 첫눈에 빠져 버리게 된다. 하지만 명성 자자한 연애학 박사 히치도 그녀 앞에만 서면 실수 투성이, 툭하면 데이트를 망쳐 버리기 일쑤인데… 과연, 그는 자신의 데이트에서도 성공할 수 있을까?</Col>
+          <Col id="id">movie05</Col>
+          <Col id="poster">imagerc::movies/mr_hitch.jpg</Col>
+        </Row>
+      </Rows>
+    </Dataset>
+  </Datasets>
+  <Variables/>
+</AppVariables>

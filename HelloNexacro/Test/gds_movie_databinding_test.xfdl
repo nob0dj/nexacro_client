@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="gds_movie_databinding_test" width="1280" height="720" titletext="New Form" onload="gds_movie_databinding_test_onload" oninit="gds_movie_databinding_test_oninit" onactivate="gds_movie_databinding_test_onactivate">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="@실습문제: Combo를 통해 영화정보 확인하기&#13;&#10;-----------------------------------------------------------------------------------------------&#13;&#10;gds_movie의 데이터를 ImageViewer, Textarea에 Binding하기" left="76" top="25" width="480" height="47"/>
+        <Grid id="Grid00" taborder="1" left="70" top="120" width="110" height="152" binddataset="gds_movie" autofittype="col" visible="true">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="title"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:title"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <ImageViewer id="ImageViewer00" taborder="2" left="204" top="116" width="192" height="208" onload="ImageViewer00_onload" stretch="fixaspectratio" image="url('imagerc::movies/aladin.jpg')"/>
+        <TextArea id="TextArea00" taborder="3" left="418" top="120" width="245" height="324" minwidth="" wordWrap="char"/>
+      </Layout>
+      <Layout height="720" mobileorientation="landscape" width="1280" name="default0"/>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[
+
+this.ImageViewer00_onload = function(obj:nexacro.ImageViewer,e:nexacro.LoadEventInfo)
+{
+	//이미지크기에 맞춰 viewer 너비/높이 변경하기
+	//imageviewer 초기화(필수)
+	//아래 두줄 생략하면, 전 이미지의 크기에 맞추어 stretch=fixaspectration가 적용되어 이미지가 점점 작아진다.
+	obj.set_width(208);
+	obj.set_height(286);
+	
+	
+	if(obj.imagewidth > obj.imageheight)
+		obj.set_height(obj.imageheight);
+	else
+		obj.set_width(obj.imagewidth);
+};
+
+/**
+* onload : form초기화 후 컴포넌트/데이터가 모두 로드되었을때 발생
+* 페이지 전환시 매번 발생
+*/
+this.gds_movie_databinding_test_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//alert('onload');
+};
+
+/**
+* oninit : form 초기화 완료시 발생
+* 페이지 전환시 매번 발생
+*/
+this.gds_movie_databinding_test_oninit = function(obj:nexacro.Form,e:nexacro.EventInfo)
+{
+	//alert('oninit');
+};
+
+/**
+* onactive : form활성화시마다 발생. 
+* focus시마다 계속 발생됨.
+*/
+this.gds_movie_databinding_test_onactivate = function(obj:nexacro.Form,e:nexacro.ActivateEventInfo)
+{
+	//trace('onactive');
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="ImageViewer00" propid="image" datasetid="gds_movie" columnid="poster"/>
+      <BindItem id="item0" compid="TextArea00" propid="value" datasetid="gds_movie" columnid="outline"/>
+    </Bind>
+  </Form>
+</FDL>

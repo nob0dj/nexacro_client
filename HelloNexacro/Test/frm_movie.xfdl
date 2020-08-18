@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frm_movie" width="1280" height="720" titletext="New Form" onload="frm_movie_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="영화 등록/수정" left="29" top="24" width="257" height="56" cssclass="border"/>
+        <Div id="Div00" taborder="1" left="28" top="99" width="622" height="241" border="2px solid darkgray">
+          <Layouts>
+            <Layout>
+              <FileUpload id="FileUpload00" taborder="0" left="30" top="189" width="250" height="30" onitemchanged="Div00_FileUpload00_onitemchanged"/>
+              <Edit id="Edit01" taborder="1" left="30" top="104" width="250" height="62" displaynulltext="영화제목"/>
+              <TextArea id="TextArea00" taborder="2" left="320" top="24" width="266" height="179" displaynulltext="줄거리" wordWrap="char"/>
+              <MaskEdit id="MaskEdit00" taborder="3" left="30" top="24" width="250" height="62" format="movie##" type="string"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="Button00" taborder="2" text="새영화" left="338" top="37" width="69" height="32" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="3" text="삭제" left="448" top="37" width="69" height="32" onclick="Button01_onclick"/>
+        <Button id="Button02" taborder="4" text="저장" left="558" top="37" width="69" height="32" onclick="Button02_onclick" tooltiptext="저장후 목록페이지로 이동합니다."/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+/**
+* 추가
+*/
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var ds = _application.gds_movie;
+	
+	//새로운 행 추가
+	var nRow = ds.addRow();
+	
+	//마지막 행의 id 구하기
+	var lastId = ds.getColumn(nRow-1, 'id');
+	
+	var newId = parseInt(lastId.replace('movie','')) + 1;
+	newId = 'movie' + newId.toString().padLeft(2,'0');
+	//alert(newId);
+	ds.setColumn(nRow, 'id', newId);
+};
+
+
+/**
+* 삭제
+*/
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var ds = _application.gds_movie;
+	ds.deleteRow(ds.rowposition);
+};
+
+/**
+* 현재행 저장 후 목록 페이지 이동
+*/
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+	_application.transaction(
+		"movie.save",
+		"DataUrl::movie/save",
+		"in_ds=gds_movie:A",
+		"",
+		"",
+		"goToMovieList"
+	);
+
+};
+
+_application.goToMovieList = function(strSvcID, nErrorCode, strErrorMsg){
+	if(nErrorCode < 0 ) {
+		alert(strSvcID + " : " + strErrorMsg);
+	}
+	else {
+		//영화목록페이지 이동
+		_application.gds_menu.set_rowposition(6);//gds_menu 현재 인덱스 변경
+		_application.openFrm("Test::gds_movie_databinding_test.xfdl");//이동한 폼 요청
+	}
+	
+};
+
+
+
+
+this.Div00_FileUpload00_onitemchanged = function(obj:nexacro.FileUpload,e:nexacro.FileUploadItemChangeEventInfo)
+{
+	//FileUpTransfer에 파일 추가하기 위해, 읽기모드로 파일 오픈
+	this.openFile(obj.filelist[0]);
+};
+
+/**
+* VirtualFile : 로컬시스템의 파일을 읽거나 쓰기위해 사용되는 가상파일 오브젝트
+* VirtualFile onsuccess, onerror 이벤트 핸들러 설치
+* 
+*/
+this.openFile = function(vFile)
+{
+	vFile.addEventHandler("onsuccess", this.vFile_onsuccess, this);
+	vFile.addEventHandler("onerror", this.vFile_onerror , this);   
+
+	//VirtualFile 에 로드된 파일을 조건에 맞게 오픈하는 메소드
+	//VirtualFile.open( strFileName ,constOptions )
+	//strFileName : FileUpload, FileUpTransfer, FileDialog 또는 Drag&Drop 으로 전달된 VirtualFile 오브젝트일 때만 strFileName 파라미터값을 null 또는 빈값으로 설정가능
+	//constOptions : openRead(읽기전용 1), openWrite(쓰기전용), openAppend(이어쓰기 전용), openCreate(파일생성전용), openText(텍스트모드), openBinary(이진모드) 
+	vFile.open(null, VirtualFile.openRead);
+
+}
+
+/**
+* 파일 추가 성공한 경우
+*/
+this.vFile_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	//console.dir(e);//nexacro.VirtualFileEventInfo
+	//console.dir(obj);//nexacro.VirtualFile
+	
+	//VirtualFileEventInfo.reason : 이벤트가 발생한 원인의 코드값을 정수로 갖는 읽기전용 속성
+    switch (e.reason)
+    {
+        case 1:
+			//e.reason=1 : open() 메소드가 수행되었을 때
+			//VirtualFile 에 오픈된 파일의 크기를 조회후, 조회에 성공여부를 반환 
+            obj.getFileSize(); //true
+            break;
+		case 9:
+			//e.reason=9 : getFileSize() 메소드가 수행되었을 때
+			// VirtualFileEventInfo 오브젝트의 filesize 속성에 읽어들인 데이터가 저장
+		
+			//FileUpTransfer00에 파일 저장
+			//FileUpTransfer.addFile( strID, objVFile )
+			//stdID : 파일 업로드시 name값으로 사용함.
+			//objVFile : filelist 속성에 추가 할 파일정보를 VirtualFile 오브젝트
+            //this.FileUpTransfer00.addFile(obj.filename, obj);
+			this.FileUpTransfer00.addFile('poster', obj);
+			
+			//FilUpTransfer00 업로드 요청
+			this.uploadFile();
+            break;
+    }
+}
+
+/**
+* 파일 추가 실패한 경우
+*/
+this.vFile_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+    trace("errortype: "+e.errortype);
+    trace("errormsg: "+e.errormsg);
+    trace("statuscode: "+e.statuscode);
+}
+
+/**
+* FileUpTransfer00.upload 함수
+* 
+* onprogress
+* onsuccess
+* onerror
+*/
+this.uploadFile = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileUpTransfer00.upload('DataUrl::movie/fileUpload');
+};
+
+this.FileUpTransfer00_onprogress = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferProgressEventInfo)
+{
+    trace("onprogress : "  + e.loaded+"/"+e.total); //384103/384103
+};
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventinfo)
+{
+    trace("onsuccess : "  + e.code);	// 0 
+    trace("onsuccess : "  + e.message);	// Success
+	
+	
+	console.dir(e);	//nexacro.FileUpTransferEventInfo 
+	console.dir(e.datasets);	//nexacro.Dataset 배열
+	
+	//데이터셋 리스트 접근
+	var ds = e.datasets[0];
+	var fileName = ds.getColumn(0, 'fileName');//저장된 파일명
+	
+	console.dir(ds);
+	console.dir(ds._rawRecords[0]);//["upFile", "jang_yoon_ju.jpg", "31201", "image/jpeg"]
+	
+	//마지막행에 poster컬럼값 세팅
+	var nRow = _application.gds_movie.rowposition;
+	_application.gds_movie.setColumn(nRow, 'poster', "imagerc::movies/" + fileName);
+	//alert(nRow + " , " + fileName);
+	
+	
+};
+
+this.FileUpTransfer00_onerror = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferErrorEventInfo)
+{
+    trace(e.errormsg);
+    trace(e.statuscode);
+};
+
+
+
+
+
+//callback : transaction호출 스코프와 동일하게 선언할것
+this.callbackFunc = function(strSvcID, nErrorCode, strErrorMsg) {
+	trace("nErrorCode = " + nErrorCode);
+	trace("strErrorMsg = " + strErrorMsg);
+	if(nErrorCode < 0 ) alert(strSvcID + " : " + strErrorMsg);
+};
+
+
+
+]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="Div00.form.Edit01" propid="value" datasetid="gds_movie" columnid="title"/>
+      <BindItem id="item1" compid="Div00.form.TextArea00" propid="value" datasetid="gds_movie" columnid="outline"/>
+      <BindItem id="item0" compid="Div00.form.MaskEdit00" propid="value" datasetid="gds_movie" columnid="id"/>
+    </Bind>
+    <Objects>
+      <FileUpTransfer id="FileUpTransfer00" onerror="FileUpTransfer00_onerror" onprogress="FileUpTransfer00_onprogress" onsuccess="FileUpTransfer00_onsuccess"/>
+    </Objects>
+  </Form>
+</FDL>

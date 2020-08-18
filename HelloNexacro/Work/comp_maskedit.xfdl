@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompMaskEdit" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280" stepcount="0">
+        <MaskEdit id="MaskEdit10" taborder="4" left="40" top="268" width="153" height="25" displaynulltext="주민번호" format="######-#######" type="string"/>
+        <MaskEdit id="MaskEdit11" taborder="5" left="40" top="236" width="153" height="25" displayinvalidtext="유효한 전화번호가 아닙니다." type="string" format="###-####-####" displaynulltext="전화번호" onsetfocus="MaskEdit01_onsetfocus" onkillfocus="MaskEdit01_onkillfocus" oneditclick="MaskEdit01_oneditclick"/>
+        <MaskEdit id="MaskEdit12" taborder="7" left="40" top="127" width="110" height="24" format="#,###" displaynulltext="가격" value="12345"/>
+        <Static id="Static00" taborder="0" text="기본 MaskEdit  AA-123 표기" left="40" top="0" width="188" height="40"/>
+        <MaskEdit id="MaskEdit00" taborder="1" left="40" top="45" width="110" height="25" format="AA-###" type="string"/>
+        <MaskEdit id="MaskEdit01" taborder="2" left="40" top="158" width="110" height="24" format="#,###.00" displaynulltext="12,345.67"/>
+        <MaskEdit id="MaskEdit02" taborder="3" left="40" top="300" width="153" height="25" format="######-#{######}" type="string" displaynulltext="주민번호 뒷자리 * 표시"/>
+        <Static id="Static01" taborder="6" text="@@@@ : 모든 문자 가능&#13;&#10;#### : 숫자 가능 (0~9)&#13;&#10;**** : 영문 대.소문자&#13;&#10;9999 : 영문, 숫자&#13;&#10;AAAA : 영대문자&#13;&#10;aaaa : 영소문자&#13;&#10;A{AA}A: 비밀번호 표기&#13;&#10;" left="40" top="407" width="172" height="113"/>
+        <MaskEdit id="MaskEdit03" taborder="8" left="259" top="407" width="70" height="14" format="@@@@" type="string"/>
+        <MaskEdit id="MaskEdit03_00" taborder="9" left="259" top="422" width="70" height="14" format="####" type="string"/>
+        <MaskEdit id="MaskEdit03_00_00" taborder="10" left="259" top="437" width="70" height="14" format="****" type="string"/>
+        <MaskEdit id="MaskEdit03_00_00_00" taborder="11" left="259" top="467" width="70" height="14" format="AAAA" type="string"/>
+        <MaskEdit id="MaskEdit03_00_01" taborder="12" left="259" top="452" width="70" height="14" format="9999" type="string"/>
+        <MaskEdit id="MaskEdit03_00_00_00_00" taborder="13" left="259" top="482" width="70" height="14" format="aaaa" type="string"/>
+        <MaskEdit id="MaskEdit03_00_00_00_00_00" taborder="14" left="259" top="497" width="70" height="14" format="A{AA}A" type="string"/>
+        <Static id="Static00_00_00_00" taborder="15" text="type = string" left="40" top="350" width="162" height="40" textDecoration="underline" font="bold 12px/normal &quot;Gulim&quot;"/>
+        <MaskEdit id="MaskEdit04" taborder="16" left="299" top="591" width="70" height="14" format="#,###"/>
+        <MaskEdit id="MaskEdit04_00" taborder="17" left="299" top="609" width="70" height="14" format="#,##9"/>
+        <MaskEdit id="MaskEdit04_00_00" taborder="18" left="299" top="627" width="70" height="14" format="0,000.00"/>
+        <Static id="Static00_01" taborder="19" text="type = number" left="40" top="80" width="188" height="40"/>
+        <Static id="Static00_01_00" taborder="20" text="type = string" left="40" top="189" width="188" height="40" onclick="Static00_01_00_onclick"/>
+        <Static id="Static00_00_00_00_00" taborder="21" text="type = number" left="40" top="540" width="162" height="40" textDecoration="underline" font="bold 12px/normal &quot;Gulim&quot;"/>
+        <Static id="Static01_00" taborder="22" text="#,### 해당자리수가 없다면 모두 생략&#13;&#10;9,999 해당자리수가 없다면 소수점이하만 생략&#13;&#10;0,000 해당자리수가 없다면, 0표시" left="40" top="581" width="259" height="63" onclick="Static01_00_onclick"/>
+        <Static id="Static02" taborder="23" text="◇string|number type 모두 실제 value값을 읽어오면, format문자외에는 모두 제거된다." left="307" top="170" width="505" height="45" border="1px solid cornflowerblue" textAlign="center"/>
+        <Button id="Button00" taborder="24" text="확인" left="171" top="127" width="55" height="24" onclick="Button00_onclick"/>
+        <Button id="Button00_00" taborder="25" text="확인" left="212" top="236" width="55" height="25" onclick="Button00_00_onclick"/>
+        <Grid id="Grid00" taborder="26" left="532" top="358" width="336" height="146" binddataset="ds_hobby" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="name"/>
+                <Cell col="1" text="game"/>
+                <Cell col="2" text="music"/>
+                <Cell col="3" text="movie"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:name"/>
+                <Cell col="1" text="bind:game"/>
+                <Cell col="2" text="bind:music"/>
+                <Cell col="3" text="bind:movie"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <CheckBox id="CheckBox00" taborder="27" text="게임" left="556" top="523" width="85" height="32"/>
+        <CheckBox id="CheckBox01" taborder="28" text="음악" left="556" top="574" width="85" height="34"/>
+        <CheckBox id="CheckBox02" taborder="29" text="영화" left="556" top="623" width="85" height="40" truevalue="참" falsevalue="거짓"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.MaskEdit12.value);
+};
+
+this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.MaskEdit11.value);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_hobby">
+        <ColumnInfo>
+          <Column id="name" type="STRING" size="256"/>
+          <Column id="game" type="STRING" size="256"/>
+          <Column id="music" type="STRING" size="256"/>
+          <Column id="movie" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name">철수</Col>
+            <Col id="game">1</Col>
+            <Col id="music">0</Col>
+            <Col id="movie">참</Col>
+          </Row>
+          <Row>
+            <Col id="name">영희</Col>
+            <Col id="game">false</Col>
+            <Col id="music">false</Col>
+            <Col id="movie">참</Col>
+          </Row>
+          <Row>
+            <Col id="name">강재 TRUE_FALSE</Col>
+            <Col id="game">TRUE</Col>
+            <Col id="music">FALSE</Col>
+            <Col id="movie">거짓</Col>
+          </Row>
+          <Row>
+            <Col id="name">문영 T_F</Col>
+            <Col id="game">T</Col>
+            <Col id="music">F</Col>
+            <Col id="movie">그짓</Col>
+          </Row>
+          <Row>
+            <Col id="name">채린</Col>
+            <Col id="game">하하</Col>
+            <Col id="movie"> </Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="CheckBox00" propid="value" datasetid="ds_hobby" columnid="game"/>
+      <BindItem id="item1" compid="CheckBox01" propid="value" datasetid="ds_hobby" columnid="music"/>
+      <BindItem id="item2" compid="CheckBox02" propid="value" datasetid="ds_hobby" columnid="movie"/>
+    </Bind>
+  </Form>
+</FDL>

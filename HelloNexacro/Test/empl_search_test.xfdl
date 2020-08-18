@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="empl_search_test" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Grid id="Grid00" taborder="0" left="53" top="137" width="887" height="233" binddataset="gds_emp" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="105"/>
+                <Column size="105"/>
+                <Column size="105"/>
+                <Column size="105"/>
+                <Column size="105"/>
+                <Column size="105"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="EMPL_ID"/>
+                <Cell col="1" rowspan="2" text="FULL_NAME"/>
+                <Cell col="2" text="DEPT_CD"/>
+                <Cell col="3" text="HIRE_DATE"/>
+                <Cell col="4" text="GENDER"/>
+                <Cell col="5" rowspan="2" text="MEMO"/>
+                <Cell row="1" col="2" text="POS_CD"/>
+                <Cell row="1" col="3" text="SALARY"/>
+                <Cell row="1" col="4" text="MARRIED"/>
+              </Band>
+              <Band id="body">
+                <Cell rowspan="2" text="bind:EMPL_ID" displaytype="mask" edittype="none" maskeditformat="AA-###" maskedittype="string" textAlign="center"/>
+                <Cell col="1" rowspan="2" text="bind:FULL_NAME" textAlign="center"/>
+                <Cell col="2" text="bind:DEPT_CD" displaytype="combotext" combodataset="gds_dept" combocodecol="DEPT_CD" combodatacol="DEPT_NAME"/>
+                <Cell col="3" text="bind:HIRE_DATE" displaytype="date"/>
+                <Cell col="4" text="expr:GENDER == 'M' ? '남' : '여'" textAlign="center"/>
+                <Cell col="5" rowspan="2" text="bind:MEMO"/>
+                <Cell row="1" col="2" text="bind:POS_CD" displaytype="combotext" combodataset="gds_pos" combocodecol="POS_CD" combodatacol="POS_NAME"/>
+                <Cell row="1" col="3" text="bind:SALARY" displaytype="currency" locale="ko_KR"/>
+                <Cell row="1" col="4" text="bind:MARRIED" displaytype="checkboxcontrol"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="3" text="@실습문제 : 사원 이름(FULL_NAME) 검색" left="53" top="16" width="265" height="49" cssclass="title border"/>
+        <Div id="Div00" taborder="4" left="53" top="71" width="426" height="60" border="2px solid darkgray">
+          <Layouts>
+            <Layout>
+              <Edit id="Edit00" taborder="1" left="15" top="9" width="229" height="39" displaynulltext="이름 검색"/>
+              <Button id="Button00" taborder="2" text="Search" left="268" top="9" width="134" height="39" onclick="Div00_Button00_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Div00_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var searchEdit = this.Div00.form.Edit00;
+	
+	if(searchEdit.value == undefined || /^.+$/.test(searchEdit.value) == false){
+		//검색어를 입력하지 않았다면, 전체검색 처리
+		this.selectAll();
+		return;
+	}
+	//alert('[' + searchEdit.value + '] searching ....');
+	
+	_application.transaction(
+		"empl.search",
+		//"http://localhost:9090/nxcr/empl/search",
+		"DataUrl::empl/search", //WebBrowser 실행시, DataUrl서비스그룹의 CacheLevel:none 설정 확인.
+		"",
+		"gds_emp=out_ds", //clientDataset=serverDataset
+		"search=" + searchEdit.value,
+		"callbackFunc"
+	);
+	
+};
+
+this.selectAll = function(){
+	_application.transaction(
+		"empl.select",
+		"DataUrl::empl/select",
+		"",
+		"gds_emp=out_ds", //clientDataset=serverDataset
+		"",
+		"callbackFunc"
+	);
+}
+
+
+//callback : transaction호출 스코프와 동일하게 선언할것
+_application.callbackFunc = function(strSvcID, nErrorCode, strErrorMsg) {
+	trace("nErrorCode = " + nErrorCode);
+	trace("strErrorMsg = " + strErrorMsg);
+	if(nErrorCode < 0 ) alert(strSvcID + " : " + strErrorMsg);
+};
+
+]]></Script>
+  </Form>
+</FDL>

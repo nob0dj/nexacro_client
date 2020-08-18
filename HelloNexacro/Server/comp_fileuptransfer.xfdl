@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="comp_fileupload" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280" stepcount="0">
+        <Button id="Button00" taborder="0" text="Choose File" left="36" top="80" width="130" height="42" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="1" text="Upload" left="200" top="80" width="130" height="42" onclick="Button01_onclick"/>
+        <Static id="Static00" taborder="3" text="Drop File Here" left="36" top="180" width="333" height="116" font="bold 36px/normal &quot;Gulim&quot;" color="aquamarine"/>
+        <Grid id="Grid00" taborder="2" left="34" top="149" width="333" height="147" binddataset="Dataset00" autofittype="col" ondragenter="Grid00_ondragenter" ondragleave="Grid00_ondragleave" ondrop="Grid00_ondrop">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="237"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="name"/>
+                <Cell col="1" text="size"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:name"/>
+                <Cell col="1" text="bind:size"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <TextArea id="TextArea00" taborder="4" left="393" top="149" width="275" height="147"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <FileUpTransfer id="FileUpTransfer00" onerror="FileUpTransfer00_onerror" onprogress="FileUpTransfer00_onprogress" onsuccess="FileUpTransfer00_onsuccess"/>
+      <FileDialog id="FileDialog00" onclose="FileDialog00_onclose"/>
+      <Dataset id="Dataset00">
+        <ColumnInfo>
+          <Column id="name" type="STRING" size="256"/>
+          <Column id="size" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//FileDialog.open( strTitle, constOpenMode [, strInitialPath [, strFileName [, nWidth [, nHeight ]]]] )
+	this.FileDialog00.open('파일첨부', FileDialog.MULTILOAD);
+};
+
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	console.dir(e);//nexacro.FileDialogEventInfo
+    this.addFileList(e.virtualfiles);
+};
+
+this.addFileList = function(filelist)
+{	
+	//VirtualFile : 로컬시스템의 파일을 읽거나 쓰기위해 사용되는 가상파일 오브젝트	
+    for (var i = 0, len = filelist.length, vFile; i < len; i++)
+    {
+        vFile = filelist[i];
+		//onsuccess 이벤트 핸들러 추가
+        vFile.addEventHandler("onsuccess", this.FileList_onsuccess, this);
+        vFile.addEventHandler("onerror", this.FileList_onerror , this);
+        
+        vFile.open(null, 1);
+    }
+	this.uploadFiles();
+}
+/**
+* drag & drop 관련
+*/
+this.Grid00_ondragenter = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
+{
+    if(e.datatype == "file")
+    {
+        this.Grid00.set_opacity(0.5);
+    }
+};
+
+this.Grid00_ondragleave = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
+{
+    this.Grid00.set_opacity(1);
+};
+
+this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+    this.Grid00.set_opacity(1);
+    if(e.datatype == "file")
+    {
+        this.addFileList(e.filelist);
+	}
+	
+};
+
+/**
+* 파일 추가 성공한 경우
+*/
+this.FileList_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	console.dir(e);//nexacro.VirtualFileEventInfo
+	console.dir(obj);
+	
+	//VirtualFileEventInfo.reason : 이벤트가 발생한 원인의 코드값을 정수로 갖는 읽기전용 속성
+    switch (e.reason)
+    {
+        case 1:
+			//open() 메소드가 수행되었을 때
+			//VirtualFile 에 오픈된 파일의 크기를 조회후, 조회에 성공여부를 반환 
+            obj.getFileSize();
+            break;
+		case 9:
+			//getFileSize() 메소드가 수행되었을 때
+			// VirtualFileEventInfo 오브젝트의 filesize 속성에 읽어들인 데이터가 저장
+		
+			//1. dataset에 파일명, 파일크기를 추가
+            var nRowIdx = this.Dataset00.addRow();
+            this.Dataset00.setColumn(nRowIdx, 0, obj.filename);
+            this.Dataset00.setColumn(nRowIdx, 1, this.cutFileSize(e.filesize));
+			
+			//2. FileUpTransfer00에 파일 저장
+			//FileUpTransfer.addFile( strID, objVFile )
+			//stdID : 파일 업로드시 name값으로 사용함.
+			//objVFile : filelist 속성에 추가 할 파일정보를 VirtualFile 오브젝트
+            this.FileUpTransfer00.addFile(obj.filename, obj);
+            break;
+    }
+}
+
+/**
+* 파일 추가 실패한 경우
+*/
+this.FileList_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+    trace("errortype: "+e.errortype);
+    trace("errormsg: "+e.errormsg);
+    trace("statuscode: "+e.statuscode);
+}
+
+this.cutFileSize = function(filesize)
+{
+    var sOutput = filesize + " bytes";
+    for (var aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
+    {
+        sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+    }
+    return sOutput;
+};
+
+/**
+* upload 함수
+*/
+this.uploadFiles = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    //this.TextArea00.set_value("");
+    //this.FileUpTransfer00.upload('http://demo.nexacro.com/developer_guide/17/Service/fileupload.jsp');
+	this.FileUpTransfer00.upload('http://localhost:9090/nxcr/fileupload.jsp');
+};
+
+this.FileUpTransfer00_onprogress = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferProgressEventInfo)
+{
+    this.addLog("onprogress : "  + e.loaded+"/"+e.total);
+};
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventinfo)
+{
+    this.addLog("onsuccess : "  + e.code);
+    this.addLog("onsuccess : "  + e.message);
+	this.addLog("-----------------------------------");
+		
+	console.log(e);
+	console.log(e.datasets);
+	var ds = e.datasets[0];
+	var fileName = ds.getColumn(0, 'fileName');
+	console.log(fileName);
+};
+
+this.FileUpTransfer00_onerror = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferErrorEventInfo)
+{
+    this.addLog(e.errormsg);
+    this.addLog(e.statuscode);
+};
+
+this.addLog = function(strMessage)
+{
+    this.TextArea00.insertText(strMessage + '\n');
+}
+]]></Script>
+  </Form>
+</FDL>

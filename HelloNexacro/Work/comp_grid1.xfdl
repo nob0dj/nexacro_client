@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompGrid" width="1280" height="720" titletext="Grid Component" onload="frmCompGrid_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="Grid00" taborder="0" left="34" top="43" width="213" height="177" autofittype="col" binddataset="ds_dept" oncellclick="Grid00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="64" band="left"/>
+                <Column size="61"/>
+                <Column size="68"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="번호"/>
+                <Cell col="1" text="부서코드"/>
+                <Cell col="2" text="부서명"/>
+              </Band>
+              <Band id="body">
+                <Cell expr="currow + 1"/>
+                <Cell col="1" text="bind:dept_code"/>
+                <Cell col="2" text="bind:dept_name"/>
+              </Band>
+              <Band id="summary">
+                <Cell text="총부서수" autosizecol="limitmax"/>
+                <Cell col="1" colspan="2" expr="dataset.getRowCount()" text="expr:comp.parent.ds_dept.getRowCount()"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="1" text="Grid x Dataset" left="34" top="6" width="174" height="32"/>
+        <Button id="Button00" taborder="2" text="총부서수 확인" left="257" top="43" width="93" height="34" onclick="Button00_onclick"/>
+        <Grid id="Grid01" taborder="3" left="34" top="282" width="636" height="196" binddataset="ds_student" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="58" band="left"/>
+                <Column size="76"/>
+                <Column size="55"/>
+                <Column size="76"/>
+                <Column size="76"/>
+                <Column size="76"/>
+                <Column size="76"/>
+                <Column size="76"/>
+                <Column size="72"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+                <Row size="24" band="summ"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="no"/>
+                <Cell col="1" text="name"/>
+                <Cell col="2" text="gender"/>
+                <Cell col="3" text="kor"/>
+                <Cell col="4" text="eng"/>
+                <Cell col="5" text="math"/>
+                <Cell col="6" text="총점"/>
+                <Cell col="7" text="평균"/>
+                <Cell col="8" text="rowtype"/>
+              </Band>
+              <Band id="body">
+                <Cell expr="rowidx + 1"/>
+                <Cell col="1" text="bind:name" edittype="text"/>
+                <Cell col="2" text="bind:gender" expr="gender == 'M' ? '남' : '여'"/>
+                <Cell col="3" text="bind:kor"/>
+                <Cell col="4" text="bind:eng"/>
+                <Cell col="5" text="bind:math"/>
+                <Cell col="6" expr="kor + eng + math"/>
+                <Cell col="7" expr="(kor + eng + math) / (dataset.colcount - 2)"/>
+                <Cell col="8" expr="dataset.getRowType(rowidx)"/>
+              </Band>
+              <Band id="summary">
+                <Cell text="총학생수"/>
+                <Cell col="1" expr="dataset.getRowCount()"/>
+                <Cell col="2" expr="dataset.parent.getGenderAnalysis()"/>
+                <Cell col="3" expr="dataset.getSum('kor') / dataset.rowcount"/>
+                <Cell col="4" expr="Math.round( dataset.getSum('eng') / dataset.rowcount * 100 ) / 100"/>
+                <Cell col="5" expr="dataset.getSum('math') / dataset.rowcount"/>
+                <Cell col="6"/>
+                <Cell col="7" expr="comp.parent.getAvg()"/>
+                <Cell col="8"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button01" taborder="4" text="사용자함수 확인" left="268" top="240" width="106" height="30" onclick="getAvg"/>
+        <Static id="Static01" taborder="5" text="expr 활용" left="38" top="234" width="195" height="32"/>
+        <Div id="Div00" taborder="6" text="Div00" left="40" top="500" width="320" height="208" border="1px solid darkgray">
+          <Layouts>
+            <Layout>
+              <Edit id="Edit00" taborder="0" left="23" top="13" width="133" height="43" displaynulltext="이름"/>
+              <Radio id="Radio00" taborder="1" left="179" top="16" width="130" height="33" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="2">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">M</Col>
+                      <Col id="datacolumn">남</Col>
+                    </Row>
+                    <Row>
+                      <Col id="datacolumn">여</Col>
+                      <Col id="codecolumn">F</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static00" taborder="2" text="국" left="28" top="66" width="35" height="35" textAlign="center"/>
+              <Edit id="Edit01" taborder="3" left="80" top="66" width="76" height="40" inputtype="digit"/>
+              <Static id="Static00_00" taborder="4" text="영" left="28" top="110" width="35" height="35" textAlign="center"/>
+              <Edit id="Edit01_00" taborder="5" left="80" top="110" width="76" height="40" inputtype="digit"/>
+              <Static id="Static00_01" taborder="6" text="수" left="28" top="154" width="35" height="35" textAlign="center"/>
+              <Edit id="Edit01_01" taborder="7" left="80" top="154" width="76" height="40" inputtype="digit"/>
+              <Button id="Button00" taborder="8" left="179" top="69" width="96" height="125" background="url('https://lh3.googleusercontent.com/proxy/q0JplhXdqDNyYCtT9EEOUUXgt-9_I6Ab5rXB2oniAlKb3gGvrSjMVPBMDbK_X5Ij7NdqYGKmjCAi0zyjHwoFENu1Rp-f3YrNGVDKThTROKRxFEi-wYi2aYdDCttSdgFX4tRvIfDLUe3cWJ8qNC1H51tzl98') no-repeat center center" onclick="Div00_Button00_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="Button02" taborder="7" text="선택행 삭제" left="380" top="500" width="92" height="54" onclick="Button02_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_dept">
+        <ColumnInfo>
+          <Column id="dept_code" type="STRING" size="256"/>
+          <Column id="dept_name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="dept_code">D1</Col>
+            <Col id="dept_name">회계감사부</Col>
+          </Row>
+          <Row>
+            <Col id="dept_code">D2</Col>
+            <Col id="dept_name">인적자원부</Col>
+          </Row>
+          <Row>
+            <Col id="dept_code">D3</Col>
+            <Col id="dept_name">영업부</Col>
+          </Row>
+          <Row>
+            <Col id="dept_code">D4</Col>
+            <Col id="dept_name">디자인부</Col>
+          </Row>
+          <Row>
+            <Col id="dept_code">D5</Col>
+            <Col id="dept_name">개발부</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_student">
+        <ColumnInfo>
+          <Column id="name" type="STRING" size="256"/>
+          <Column id="gender" type="STRING" size="256"/>
+          <Column id="kor" type="INT" size="256"/>
+          <Column id="eng" type="INT" size="256"/>
+          <Column id="math" type="INT" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="name">홍길동</Col>
+            <Col id="kor">90</Col>
+            <Col id="eng">80</Col>
+            <Col id="math">70</Col>
+            <Col id="gender">M</Col>
+          </Row>
+          <Row>
+            <Col id="math">30</Col>
+            <Col id="eng">40</Col>
+            <Col id="kor">50</Col>
+            <Col id="name">장영실</Col>
+            <Col id="gender">M</Col>
+          </Row>
+          <Row>
+            <Col id="name">논개</Col>
+            <Col id="gender">F</Col>
+            <Col id="kor">100</Col>
+            <Col id="eng">40</Col>
+            <Col id="math">80</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.ds_dept.getRowCount());
+};
+
+//grid cell 클릭 핸들러
+this.Grid00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	console.dir(obj);//nexacro.Grid
+};
+
+
+//expr에 사용되는 예약어 확인
+//comp : nexacro.Grid
+//this : nexacro.GridCellInfo
+//dataset : nexacro.NormalDataset 바인딩된 데이터셋
+//math, kor, eng : 70 30
+this.test = function(obj){
+	console.log(obj);
+	return obj;
+}
+
+//form onload 함수
+this.frmCompGrid_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	trace(nexacro.getApplication().gds_dept.getRowCount());
+};
+
+
+//전체 평균 구하기 함수
+this.getAvg = function(){
+	
+	var dataset = this.ds_student;
+	//dataset.rowcount 
+	//dataset.colcount => name, gender 컬럼은 제외할 것
+	var avg = ( dataset.getSum('kor') + dataset.getSum('eng') + dataset.getSum('math')) /  (dataset.rowcount * (dataset.colcount - 2));
+	//trace(avg); //60
+	
+	return Math.round(avg * 100) / 100;
+}
+
+/**
+* 동적으로 ds_student에 행추가
+*/
+this.Div00_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var name = this.Div00.form.Edit00;
+	var gender = this.Div00.form.Radio00;
+	var kor = this.Div00.form.Edit01;
+	var eng = this.Div00.form.Edit01_00;
+	var math = this.Div00.form.Edit01_01;
+	
+	var ds = this.ds_student;
+	var nRow = ds.addRow();
+	//Dataset.setColumn( nRow, strColID, varVal )
+	ds.setColumn(nRow, 'name', name.value);
+	ds.setColumn(nRow, 'gender', gender.value);
+	ds.setColumn(nRow, 'kor', kor.value);
+	ds.setColumn(nRow, 'eng', eng.value);
+	ds.setColumn(nRow, 'math', math.value);
+	
+	//초기화
+	name.set_value('');
+	gender.set_value('');
+	kor.set_value('');
+	eng.set_value('');
+	math.set_value('');
+	
+};
+
+/**
+ * 선택행삭제
+ *
+ */
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_student.rowposition;
+	this.ds_student.deleteRow(nRow);
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Top" width="1280" height="50" titletext="Form_Top">
+    <Layouts>
+      <Layout width="1280" height="50" screenid="screen00">
+        <ImageViewer id="ImageViewer00" taborder="0" left="46" top="14" width="110" height="22" image="url('theme://images/img_WF_Nexacro.png')" stretch="fixaspectratio"/>
+        <Menu id="Menu00" taborder="1" left="200" top="7" width="600" height="37" innerdataset="gds_menu" captioncolumn="menu_name" idcolumn="menu_id" levelcolumn="menu_level" userdatacolumn="menu_url" onmenuclick="Menu00_onmenuclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[var application = nexacro.getApplication();
+
+this.Menu00_onmenuclick = function(obj:nexacro.Menu,e:nexacro.MenuClickEventInfo)
+{
+	
+	//console.dir(obj);// nexacro.Menu
+	//console.dir(e);// nexacro.MenuClickEventInfo
+	
+	
+	var menu_id = e.id; //Binding.idcolumn 값이 리턴된다.
+	
+	
+	//특정 컬럼값으로 조회하기(행인덱스 아님)
+	//gds_menu에서 해당 메뉴의 url가져오기
+	//Dataset.lookup( varCol, varCmpVal, strOutputColID [ ,arrArgs ] )
+	var menu_url = application.gds_menu.lookup("menu_id", menu_id, "menu_url");
+	
+	application.openFrm(menu_url);
+};
+]]></Script>
+  </Form>
+</FDL>

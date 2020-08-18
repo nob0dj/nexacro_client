@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompCalendar" width="1280" height="720" titletext="New Form" onload="frmCompCalendar_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="기본 value = 20201023" left="16" top="13" width="274" height="21" font="normal 13pt/normal &quot;Arial&quot;"/>
+        <Calendar id="Calendar00" taborder="1" left="16" top="44" width="150" height="20" onchanged="Calendar00_onchanged" value="20201023" usetrailingday="true"/>
+        <Static id="Static00_00" taborder="2" text="달력 타입 type = spin" left="16" top="84" width="184" height="21" font="normal 13pt/normal &quot;Arial&quot;"/>
+        <Static id="Static00_00_00" taborder="3" text="달력 지역변경하기" left="16" top="249" width="184" height="21" font="normal 13pt/normal &quot;Arial&quot;"/>
+        <Radio id="Radio01" taborder="4" left="16" top="277" width="404" height="23" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" onitemchanged="changeLocale" columncount="4">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="datacolumn">불가리아</Col>
+                <Col id="codecolumn">bg_BG</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">pl_PL</Col>
+                <Col id="datacolumn">폴란드</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">ko_KR</Col>
+                <Col id="datacolumn">대한민국</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">ar_AE</Col>
+                <Col id="datacolumn">아랍 에미리트</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+        <Calendar id="cal_locale" taborder="5" left="17" top="301" width="149" height="20" dateformat="LONGDATE" editformat="SHORTDATE" locale="ko_KR"/>
+        <Calendar id="Calendar01" taborder="6" left="16" top="115" width="147" height="23" type="spin" onchanged="Calendar01_onchanged"/>
+        <Div id="Div00" taborder="7" text="Div00" left="486" top="20" width="327" height="149" border="1px solid darkgray">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="@실습문제 : 오늘 날짜 세팅하기" left="28" top="22" width="194" height="46"/>
+              <Calendar id="Calendar00" taborder="1" left="32" top="80" width="200" height="48"/>
+              <Button id="Button00" taborder="2" text="오늘" left="248" top="80" width="52" height="48" onclick="Div00_Button00_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div01" taborder="8" text="Div01" left="486" top="230" width="380" height="330" border="1px solid darkgray">
+          <Layouts>
+            <Layout>
+              <Calendar id="Calendar00" taborder="0" left="100" top="81" width="179" height="45" value="20200807"/>
+              <Static id="Static00" taborder="1" text="from" left="30" top="78" width="38" height="48"/>
+              <Static id="Static01" taborder="2" text="to" left="30" top="146" width="41" height="38"/>
+              <Calendar id="Calendar01" taborder="3" left="100" top="146" width="179" height="44" value="20200807"/>
+              <Button id="Button00" taborder="4" text="날짜 차이 확인" left="30" top="206" width="126" height="50" onclick="Div01_Button00_onclick"/>
+              <Static id="Static02" taborder="5" text="@실습문제 : 두 날짜 차이 구하기" left="30" top="19" width="244" height="49"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Calendar id="Calendar02" taborder="9" left="16" top="185" width="141" height="35" value="20200807"/>
+        <Static id="Static01" taborder="10" text="value | yyyy | mm | dd" left="18" top="152" width="226" height="25" font="normal 13pt/normal &quot;Arial&quot;"/>
+        <Button id="Button00" taborder="11" text="value" left="168" top="188" width="35" height="32" onclick="Button00_onclick"/>
+        <Button id="Button00_00" taborder="12" text="yyyy" left="220" top="188" width="35" height="32" onclick="Button00_00_onclick"/>
+        <Button id="Button00_01" taborder="13" text="month" left="272" top="188" width="44" height="32" onclick="Button00_01_onclick"/>
+        <Button id="Button00_02" taborder="14" text="day" left="333" top="188" width="35" height="32" onclick="Button00_02_onclick"/>
+        <Button id="Button00_03" taborder="15" text="day of week" left="385" top="188" width="74" height="32" onclick="Button00_03_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[//새로운 날짜를 선택하면 호출됨.
+this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	alert(obj.value);//20200708
+};
+
+//blur시에 값이 변경되어 있다면 호출됨.
+this.Calendar01_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	alert(obj.value);//20200708
+};
+
+//라디오 선택시 cal_locale 캘린더 호출하기
+this.changeLocale = function(){
+	var radioValue = this.Radio01.value;
+	this.cal_locale.set_locale(radioValue);
+};
+
+
+this.Div00_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.Div00.form.Calendar00.set_value(this.getToday());
+};
+
+/**
+* 오늘 날짜 구하기
+* yyyymmdd 형식 문자열로 리턴.
+*/
+this.getToday = function(){
+
+	var today = new Date();
+	var yyyy = today.getFullYear();
+
+	//padLeft, padStart 모두 웹표준 string 함수이다.
+	var mm = (today.getMonth() + 1).toString().padLeft(2, "0");
+	var dd = today.getDate().toString().padStart(2, "0");
+	
+	
+	return yyyy + mm + dd;
+}
+/**
+*  커스텀 두자리수 구하기 -> padLeft함수 사용 권장
+*/
+this.make2digit = function(num){
+	return num > 10 ? num : '0' + num;
+}
+
+
+
+/**
+* 현재 폼 onload 함수
+*/
+this.frmCompCalendar_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.Div00.form.Calendar00.set_value(this.getToday());
+};
+
+
+
+/**
+*  두 날짜 차이 구하기
+*/
+this.Div01_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var fromCal = this.Div01.form.Calendar00;
+	var toCal = this.Div01.form.Calendar01;
+
+	if(fromCal.value == undefined || toCal.value == undefined){
+		alert("두 날짜를 모두 입력해주세요");
+		return;
+	}
+	
+	//alert(fromCal.getYear()); 	// 2020
+	//alert(fromCal.getMonth()); 	// 8
+	//alert(fromCal.getDay()));		// 7
+	
+	var fromDate = new Date();
+	fromDate.setFullYear(fromCal.getYear());
+	fromDate.setMonth(fromCal.getMonth() - 1);
+	fromDate.setDate(fromCal.getDay());
+	
+	var toDate = new Date();
+	toDate.setFullYear(toCal.getYear());
+	toDate.setMonth(toCal.getMonth() - 1);
+	toDate.setDate(toCal.getDay());
+	
+	var millisForDay = 24 * 60 * 60 * 100;
+	var diff = (toDate.getTime() - fromDate.getTime()) / millisForDay;
+	
+	//거꾸로 입력했을 경우 대비
+	diff = Math.abs(diff);
+	
+	alert(diff + "일 차이가 납니다.");
+};
+
+
+
+
+
+
+
+
+
+
+
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.Calendar02.value);
+};
+
+this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.Calendar02.getYear());
+};
+
+this.Button00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//인덱스기반이 아님
+	alert(this.Calendar02.getMonth());
+};
+
+this.Button00_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert(this.Calendar02.getDay());
+};
+
+this.Button00_03_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//0=일요일인 정수를 리턴
+	var arr = ['일','월','화','수','목','금','토'];
+	alert(arr[this.Calendar02.getDayOfWeek()]);
+};
+]]></Script>
+  </Form>
+</FDL>

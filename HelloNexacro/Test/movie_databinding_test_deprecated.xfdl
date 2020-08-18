@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="movie_databinding_test_deprecated" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Div id="Div00" taborder="0" text="Div00" left="32" top="59" width="612" height="541">
+          <Layouts>
+            <Layout>
+              <Combo id="Combo00" taborder="0" text="" left="36" top="27" width="218" height="58" innerdataset="gds_movie" codecolumn="id" datacolumn="title" onitemchanged="Div00_Combo00_onitemchanged" onitemclick="Div00_Combo00_onitemclick"/>
+              <ImageViewer id="ImageViewer00" taborder="1" left="38" top="112" width="216" height="239" stretch="fixaspectratio" onload="Div00_ImageViewer00_onload" onclick="Div00_ImageViewer00_onclick"/>
+              <TextArea id="TextArea00" taborder="2" left="278" top="27" width="245" height="324" minwidth="" wordWrap="char"/>
+              <Grid id="Grid00" taborder="3" left="38" top="365" width="244" height="152" binddataset="gds_movie" tooltiptext="dataset의 현재 선택사항을 보기위한 참고용 grid입니다." autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="24"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="poster"/>
+                      <Cell col="1" text="title"/>
+                      <Cell col="2" text="outline"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:poster"/>
+                      <Cell col="1" text="bind:title"/>
+                      <Cell col="2" text="bind:outline"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+            <Layout name="default0"/>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="@실습문제: Combo를 통해 영화정보 확인하기&#13;&#10;-----------------------------------------------------------------------------------------------&#13;&#10;combo를 통해 gds_movie의 데이터를 ImageViewer, Textarea에 Binding하기" left="76" top="25" width="480" height="47"/>
+      </Layout>
+      <Layout height="720" mobileorientation="landscape" width="1280" name="default0"/>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[
+this.Div00_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	//dataset과 binding 한다해도 combo의 선택된 값은 현재 dataset.row의 컬럼값을 가리킬뿐이다.
+	//검색기능 사용하기 위해서는 dataset의 filter메소드를 이용한다.
+	var application = nexacro.getApplication();
+	var nRow = application.gds_movie.findRow("id", obj.value);
+	//alert(nRow);
+	var poster = application.gds_movie.getColumn(nRow, "poster");
+	var outline = application.gds_movie.getColumn(nRow, "outline");
+	//alert(poster + ", " + outline);
+	this.Div00.form.ImageViewer00.set_image("url('imagerc::" + poster + "')");
+	this.Div00.form.TextArea00.set_value(outline);
+	
+
+
+
+
+	//데이터셋에 직접 rowposition을 변경하기(생략)
+	//textarea는 바로보기 가능하나, expr을 사용할 수 없는 imageviewer에 바로보기 적용할 수 없다.
+	//application.gds_movie.set_rowposition(nRow);
+	
+};
+
+this.Div00_ImageViewer00_onload = function(obj:nexacro.ImageViewer,e:nexacro.LoadEventInfo)
+{
+	//이미지크기에 맞춰 viewer 너비/높이 변경하기
+	//imageviewer 초기화(필수)
+	//생략하면, 전 이미지의 크기에 맞추어 stretch=fixaspectration가 적용되어 이미지가 점점 작아진다.
+	obj.set_width(208);
+	obj.set_height(286);
+	
+	
+	if(obj.imagewidth > obj.imageheight)
+		obj.set_height(obj.imageheight);
+	else
+		obj.set_width(obj.imagewidth);
+};
+
+]]></Script>
+  </Form>
+</FDL>

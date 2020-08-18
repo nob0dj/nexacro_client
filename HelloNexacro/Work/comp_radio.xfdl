@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompRadio" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="성별" left="48" top="30" width="48" height="36"/>
+        <Radio id="Radio00" taborder="1" left="104" top="30" width="136" height="30" value="M" text="" index="-1" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">M</Col>
+                <Col id="datacolumn">남</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">F</Col>
+                <Col id="datacolumn">여</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+        <Static id="Static00_00" taborder="2" text="선호컬러" left="48" top="120" width="68" height="36"/>
+        <Radio id="Radio01" taborder="3" left="144" top="117" width="246" height="39" innerdataset="ds_color" codecolumn="colorCode" datacolumn="colorName" rowcount="2"/>
+        <Edit id="Edit_ColorCode" taborder="4" left="406" top="129" width="94" height="32" displaynulltext="colorCode"/>
+        <Edit id="Edit_ColorName" taborder="5" left="513" top="129" width="94" height="32" displaynulltext="colorName"/>
+        <Button id="Button00" taborder="6" text="동적생성" left="620" top="129" width="94" height="32" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="7" text="확인" left="48" top="164" width="64" height="30" onclick="Button01_onclick"/>
+        <Static id="Static01" taborder="8" text="innerdataset" left="48" top="4" width="92" height="24" textDecoration="underline"/>
+        <Static id="Static01_00" taborder="9" text="dataset" left="48" top="104" width="92" height="24" textDecoration="underline"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_color">
+        <ColumnInfo>
+          <Column id="colorCode" type="STRING" size="256"/>
+          <Column id="colorName" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="colorCode">yellow</Col>
+            <Col id="colorName">노랑</Col>
+          </Row>
+          <Row>
+            <Col id="colorCode">red</Col>
+            <Col id="colorName">빨강</Col>
+          </Row>
+          <Row>
+            <Col id="colorCode">green</Col>
+            <Col id="colorName">초록</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let colorCode = this.Edit_ColorCode;
+	let colorName = this.Edit_ColorName;
+	
+	//Edit의 value속성은 한번 사용후에야 접근이 가능하다.
+	//아무것도 입력하지 않은 경우, undefined 또는 ''이다.
+	//trace(colorCode.value, colorName.value);
+	if(colorCode.value == '' || colorName.value == '') return;
+	if(colorCode.value == undefined || colorName.value == undefined) return;
+	
+	
+	//현재행 개수 구하기 -> 추가할 행 인덱스
+	let rowCount = this.ds_color.getRowCount();
+	//console.log(rowCount);//3
+	let rowIndex = rowCount;
+	
+	//row 추가 
+	//addRow():nRow 용법도 가능하다.
+	this.ds_color.insertRow(rowIndex);
+	//컬럼값 지정
+	//Dataset.setColumn( nRow, nColIdx, varVal )
+	//Dataset.setColumn( nRow, strColID, varVal )
+	this.ds_color.setColumn(rowIndex,0,colorCode.value);
+	this.ds_color.setColumn(rowIndex,1,colorName.value);
+	
+	//초기화
+	colorCode.set_value('');
+	colorName.set_value('');
+};
+
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let colorChecked = this.Radio01.value;
+	//아무것도 체크되지 않은 경우, undefined리턴
+	colorChecked != undefined && alert(colorChecked);
+	
+	//@실습문제: 컬러값 동적 변경
+	this.Static00_00.set_color(colorChecked);
+};
+]]></Script>
+  </Form>
+</FDL>

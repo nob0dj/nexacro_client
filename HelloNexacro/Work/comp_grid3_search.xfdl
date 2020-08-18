@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="comp_grid_search" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="Grid02" taborder="0" left="40" top="46" width="449" height="184" binddataset="ds_site" autofittype="col" oncellclick="Grid02_oncellclick" extendsizetype="row" cellsizingtype="both">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="48"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="site"/>
+                <Cell col="1" text="url"/>
+                <Cell col="2" text="image"/>
+                <Cell col="3" text="enable"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:site"/>
+                <Cell col="1" text="bind:url" displaytype="decoratetext" expr="enable == 'Y' ? &quot;&lt;u v='false'&gt;&quot;+url+&quot;&lt;/u&gt;&quot;:url"/>
+                <Cell col="2" text="expr:&quot;imagerc::site/&quot; + image" displaytype="imagecontrol" imagestretch="fixaspectratio" autosizecol="default" autosizerow="default"/>
+                <Cell col="3" text="bind:enable"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="1" text="Filter1" left="516" top="50" width="88" height="36" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="2" text="Filter2" left="516" top="100" width="88" height="36" onclick="Button01_onclick"/>
+        <Button id="Button02" taborder="3" text="Reset" left="516" top="154" width="88" height="36" onclick="Button02_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_site">
+        <ColumnInfo>
+          <Column id="site" type="STRING" size="256"/>
+          <Column id="url" type="STRING" size="256"/>
+          <Column id="image" type="STRING" size="256"/>
+          <Column id="enable" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="url">http://w3schols.com</Col>
+            <Col id="site">w3schools</Col>
+            <Col id="enable">Y</Col>
+            <Col id="image">w3schools.jpg</Col>
+          </Row>
+          <Row>
+            <Col id="url">https://www.codecademy.com</Col>
+            <Col id="site">codecademy</Col>
+            <Col id="enable">Y</Col>
+            <Col id="image">codecademy.png</Col>
+          </Row>
+          <Row>
+            <Col id="url">https://www.khanacademy.org/</Col>
+            <Col id="site">khanacademy</Col>
+            <Col id="enable">N</Col>
+            <Col id="image">khanacademy.jpg</Col>
+          </Row>
+          <Row>
+            <Col id="url">https://www.udemy.com/</Col>
+            <Col id="site">udemy</Col>
+            <Col id="enable">Y</Col>
+            <Col id="image">udemy.png</Col>
+          </Row>
+          <Row>
+            <Col id="site">kh정보교육원</Col>
+            <Col id="url">https://iei.or.kr</Col>
+            <Col id="image">kh.png</Col>
+            <Col id="enable">Y</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+//enable = 'N' 인 행 감추기
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.ds_site.filter("enable == 'Y'");
+	//this.ds_site.filter("site.indexOf('kh') > -1");
+	//this.ds_site.filter("enable == 'Y' && site.indexOf('kh') > -1");
+	this.ds_site.filter("site.includes('kh')");//문자열 포함여부 boolean리턴(IE11이하 작동안됨)
+};
+
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//조건에 만족하는첫번째 행인덱스를 반환
+// 	var nRow = this.ds_site.findRow('enable', 'Y');
+// 	//console.log(nRow);
+//     this.Grid02.selectRow(nRow, true);//해당행을 그저 선택
+	
+	//this.ds_site.set_filterstr("enable == 'Y'");
+	//this.ds_site.set_filterstr("site.indexOf('kh') > -1");
+	this.ds_site.set_filterstr("url.startsWith('https://')");
+};
+
+//reset
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_site.filter("");
+};
+]]></Script>
+  </Form>
+</FDL>

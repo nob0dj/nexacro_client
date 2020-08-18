@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmCompXcss" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="Hello Xcss" left="45" top="30" width="171" height="51" textAlign="center" verticalAlign="middle" cssclass="border"/>
+        <Static id="Static00_00" taborder="1" text="Hello Xcss" left="272" top="30" width="171" height="51" textAlign="center" verticalAlign="middle" cssclass="title"/>
+        <Static id="Static00_00_00" taborder="2" text="Hello Xcss" left="499" top="30" width="171" height="51" textAlign="center" verticalAlign="middle" cssclass="border title"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>
