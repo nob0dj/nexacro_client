@@ -31,5 +31,5 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows
 
 
-/HelloNexacro/$Geninfo$.geninfo
-/NexacroTomcatConnectivity/$Geninfo$.geninfo
+$Geninfo$.geninfo
+
